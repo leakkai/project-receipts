@@ -33,30 +33,46 @@
         	<input type="submit" value="View All"/>
         </form>
         
-        <form action="/users/search/{id}})" method="get">
+        <!-- <form action="/users/search/{id})" method="get">
         	<input type="number" th:field="${user.id}" placeholder="123" />
         	<button type="submit" th:value="#{form.submit}">Search by Id</button>
+        </form> -->
+        
+        <form th:action="@{/users/search/id}" method="get">
+        	<input type="number" th:name="id" placeholder="123" />
+        	<button type="submit">Search by Id</button>
         </form>
         
         <h1>OR</h1>
         
-        <form>
-        	<input type="text" th:field="${user.name}" placeholder="johndoe yo~" />
-        	<button type="submit" th:value="form.submit">Search by Name</button>
+        <form th:action="@{/users/search/name}" method="get">
+        	<input type="text" th:name="name" placeholder="johndoe yo~" />
+        	<button type="submit">Search by Name</button>
         </form>
         
         <h1>OR</h1>
         
-        <form>
-        	<input type="text" th:field="${user.email}" placeholder="email@yoyo" />
-        	<button type="submit" th:value="form.submit">Search by Email</button>
+        <form th:action="@{/users/search/email}" method="get">
+        	<input type="email" th:name="email" placeholder="email@yoyo" />
+        	<button type="submit">Search by Email</button>
         </form>
         
         <div th:if="${isFound}">
         	<h2> Found! </h2>
-        	<h2 th:text="${resultU.id}"></h2>
-        	<h2 th:text="${resultU.name}"></h2>
-        	<h2 th:text="${resultU.email}"></h2>
+
+        	<table>
+				<tr>
+					<th>ID</th>
+			        <th>NAME</th>
+			        <th>EMAIL</th>
+		      	</tr>
+		      	
+				<tr th:each="resultU : ${resultUList}">
+					<td th:text="${resultU.id}"></td>
+					<td th:text="${resultU.name}"></td>
+					<td th:text="${resultU.email}"></td>
+				</tr>
+			</table>
         </div>
         <div th:if="${isFound} == false">
         	<h2> Not found! </h2>
