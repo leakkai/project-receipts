@@ -99,7 +99,7 @@ public class UserController {
 	public String deleteUser(@PathVariable int id, Model model) {
 
 //		long iid = (long)id;
-		User u = userRepository.findUser(id);
+		User u = (User) userRepository.findById(id);
 //		User u = userRepository.findUserByName("dee2");
 //		List<User> uuList = (List<User>) userRepository.findAll();
 		userRepository.delete(u);
@@ -111,7 +111,7 @@ public class UserController {
 		return "redirect:/users/all";
 	}
 	
-	@GetMapping(path="/search/{id}")
+/*	@GetMapping(path="/search/{id}")
 	public String searchUser(int id, Model model, User user) {
 		
 		User u = userRepository.findUser(id);
@@ -119,6 +119,54 @@ public class UserController {
 		if (null != u) {
 			model.addAttribute("isFound", true);
 			model.addAttribute("resultU", u);
+		}
+		else {
+			model.addAttribute("isFound", false);
+		}
+		
+		return "/users/index";
+	}*/
+	
+	@GetMapping(path="/search/id")
+	public String searchById(@RequestParam(value="id")int id, Model model, User user) {
+		
+		List<User> uL = userRepository.findById(id);
+		
+		if (null != uL && uL.size() == 1) {
+			model.addAttribute("isFound", true);
+			model.addAttribute("resultUList", uL);
+		}
+		else {
+			model.addAttribute("isFound", false);
+		}
+		
+		return "/users/index";
+	}
+	
+	@GetMapping(path="/search/name")
+	public String searchByName(@RequestParam(value="name")String name, Model model, User user) {
+		
+		List<User> uList = userRepository.findByName(name);
+		
+		if (null != uList && uList.size() > 0) {
+			model.addAttribute("isFound", true);
+			model.addAttribute("resultUList", uList);
+		}
+		else {
+			model.addAttribute("isFound", false);
+		}
+		
+		return "/users/index";
+	}
+	
+	@GetMapping(path="/search/email")
+	public String searchByEmail(@RequestParam(value="email")String email, Model model, User user) {
+		
+		List<User> uList = userRepository.findByEmail(email);
+		
+		if (null != uList && uList.size() > 0) {
+			model.addAttribute("isFound", true);
+			model.addAttribute("resultUList", uList);
 		}
 		else {
 			model.addAttribute("isFound", false);
