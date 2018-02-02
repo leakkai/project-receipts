@@ -1,0 +1,65 @@
+<html>
+    <body>
+        <form action="#" th:action="@{/users}" th:object="${user}" method="post">
+            <table>
+                <tr>
+                    <td>Name:</td>
+                    <td><input type="text" th:field="*{name}" /></td>
+                    <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td><input type="email" th:field="*{email}" placeholder="your@email" /></td>
+                    <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</td>
+                </tr>
+                <tr>
+                    <td><button type="submit" th:value="#{form.submit}">Submit</button></td>
+                </tr>
+            </table>
+        </form>
+        
+        <div th:if="${isInsert}">
+        	<h2> Successful insert! </h2>
+        	<h2 th:text="${user.name}"></h2>
+        	<h2 th:text="${user.email}"></h2>
+        </div>
+        <div th:if="${isInsert} == false">
+        	<h2> Unsuccessful! </h2>
+        	<h2 th:text="${user.name}"></h2>
+        	<h2 th:text="${user.email}"></h2>
+        </div>
+        
+        <form action="/users/all"> 
+        	<input type="submit" value="View All"/>
+        </form>
+        
+        <form action="/users/search/{id}})" method="get">
+        	<input type="number" th:field="${user.id}" placeholder="123" />
+        	<button type="submit" th:value="#{form.submit}">Search by Id</button>
+        </form>
+        
+        <h1>OR</h1>
+        
+        <form>
+        	<input type="text" th:field="${user.name}" placeholder="johndoe yo~" />
+        	<button type="submit" th:value="form.submit">Search by Name</button>
+        </form>
+        
+        <h1>OR</h1>
+        
+        <form>
+        	<input type="text" th:field="${user.email}" placeholder="email@yoyo" />
+        	<button type="submit" th:value="form.submit">Search by Email</button>
+        </form>
+        
+        <div th:if="${isFound}">
+        	<h2> Found! </h2>
+        	<h2 th:text="${resultU.id}"></h2>
+        	<h2 th:text="${resultU.name}"></h2>
+        	<h2 th:text="${resultU.email}"></h2>
+        </div>
+        <div th:if="${isFound} == false">
+        	<h2> Not found! </h2>
+        </div>
+    </body>
+</html>
