@@ -1,0 +1,27 @@
+<html>
+	<body>
+		<a href="/users/"><h1>Back to user main menu</h1></a>
+	
+		<form th:action="@{/users/user/update}" th:object="${resultU}" method="post">
+			<table>
+				<tr>
+					<th>ID</th>
+			        <th>NAME</th>
+			        <th>EMAIL</th>
+		      	</tr>
+		      	
+				<tr>
+					<td><input type="number" th:field="*{id}"/></td>
+					<td><input type="text" th:field="*{name}"/></td>
+					<td><input type="email" th:field="*{email}" placeholder="email@yoyo"/></td>
+					
+					<td> 
+						<a th:href="@{/users/all/deleteUser/{id}(id=${resultU.id})}"><span>Delete</span></a>
+					</td>
+					
+					<td><button type="submit" th:value="#{form.submit}">Save</button></td>
+				</tr>
+			</table>
+		</form>
+	</body>
+</html>

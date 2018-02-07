@@ -51,8 +51,7 @@ public class UserController {
     
     
 	@GetMapping(path="/add") // Map ONLY GET Requests
-	public @ResponseBody String addNewUser (@RequestParam String name
-			, @RequestParam String email) {
+	public @ResponseBody String addNewUser (@RequestParam String name, @RequestParam String email) {
 		// @ResponseBody means the returned String is the response, not a view name
 		// @RequestParam means it is a parameter from the GET or POST request
 		
@@ -78,31 +77,20 @@ public class UserController {
 		
 		return "/users/all";
 	}
-	
-/*    @PostMapping("/all")
-    public String deleteUser(@Valid User user, BindingResult bindingResult, Model model) {
-
-        if (bindingResult.hasErrors()) {
-            return "user";
-        }
-        
-		userRepository.delete(user);
-
-//		model.addAttribute("isInsert", true);
-//        return "redirect:/results";
-//        return "forward:/results";
-//        return "results";
-        return "/users/all";
-    }*/
     
 	@GetMapping(path="/all/deleteUser/{id}")
 	public String deleteUser(@PathVariable int id, Model model) {
 
 //		long iid = (long)id;
-		User u = (User) userRepository.findById(id);
+		List<User> uL = userRepository.findById(id);
 //		User u = userRepository.findUserByName("dee2");
-//		List<User> uuList = (List<User>) userRepository.findAll();
-		userRepository.delete(u);
+
+		if (null != uL && uL.size() == 1) {
+			User u = uL.get(0);
+			userRepository.delete(u);
+		}
+		
+		
 //		model.addAttribute("users", uuList);
 		
 
@@ -110,22 +98,6 @@ public class UserController {
 		
 		return "redirect:/users/all";
 	}
-	
-/*	@GetMapping(path="/search/{id}")
-	public String searchUser(int id, Model model, User user) {
-		
-		User u = userRepository.findUser(id);
-		
-		if (null != u) {
-			model.addAttribute("isFound", true);
-			model.addAttribute("resultU", u);
-		}
-		else {
-			model.addAttribute("isFound", false);
-		}
-		
-		return "/users/index";
-	}*/
 	
 	@GetMapping(path="/search/id")
 	public String searchById(@RequestParam(value="id")int id, Model model, User user) {
@@ -174,4 +146,30 @@ public class UserController {
 		
 		return "/users/index";
 	}
+	
+    @GetMapping(value = "/user/{id}")
+    public String viewFindUser(@PathVariable int id, Model model) {
+    	
+    	List<User> uL = userRepository.findById(id);
+		
+		if (null != uL && uL.size() == 1) {
+			model.addAttribute("resultU", uL.get(0));
+		}
+		
+        return "/users/user";
+    }
+    
+    @PostMapping("/user/update")
+    public String updateUser(@Valid User user, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+            return "user";
+        }
+        
+		userRepository.save(user);
+        
+		model.addAttribute("resultU", user);
+
+        return "/users/user";
+    }
 }
