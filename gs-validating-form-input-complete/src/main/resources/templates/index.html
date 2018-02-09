@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" th:href="@{/css/bulma.css}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+	<section>
+		<div class="container">
+			<div class="tile is-ancestor">
+				<div class="tile is-vertical">
+					<div class="tile">
+						<div class="tile is-parent is-vertical">
+							<a class="tile is-child notification is-primary" th:href="@{/view/}">
+								<p class="title is-1">View/Search</p>
+								<!-- <p class="subtitle">Top tile</p> -->
+				        	</a>
+							
+							<a class="tile is-child notification is-info" th:href="@{/insert/}">
+								<p class="title is-1">Insert</p>
+								<!-- <p class="subtitle">Bottom tile</p> -->
+							</a>
+				      	</div>
+				      
+				      	<div class="tile is-parent is-vertical">
+							<a class="tile is-child notification is-warning" th:href="@{/future1/}">
+								<p class="title is-1">Some future stuff</p>
+								<!-- <p class="subtitle">Top tile</p> -->
+				        	</a>
+							
+							<a class="tile is-child notification is-danger" th:href="@{/future2/}">
+								<p class="title is-1">Some future stuff</p>
+								<!-- <p class="subtitle">Bottom tile</p> -->
+							</a>
+				      	</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+    
+    <script src="script/script.js"></script>
+    
+</body>
+</html>

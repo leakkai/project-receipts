@@ -1,82 +1,101 @@
-<html>
-    <body>
-        <form action="#" th:action="@{/users}" th:object="${user}" method="post">
-            <table>
-                <tr>
-                    <td>Name:</td>
-                    <td><input type="text" th:field="*{name}" /></td>
-                    <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
-                </tr>
-                <tr>
-                    <td>Email:</td>
-                    <td><input type="email" th:field="*{email}" placeholder="your@email" /></td>
-                    <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</td>
-                </tr>
-                <tr>
-                    <td><button type="submit" th:value="#{form.submit}">Submit</button></td>
-                </tr>
-            </table>
-        </form>
-        
-        <div th:if="${isInsert}">
-        	<h2> Successful insert! </h2>
-        	<h2 th:text="${user.name}"></h2>
-        	<h2 th:text="${user.email}"></h2>
-        </div>
-        <div th:if="${isInsert} == false">
-        	<h2> Unsuccessful! </h2>
-        	<h2 th:text="${user.name}"></h2>
-        	<h2 th:text="${user.email}"></h2>
-        </div>
-        
-        <form action="/users/all"> 
-        	<input type="submit" value="View All"/>
-        </form>
-        
-        <!-- <form action="/users/search/{id})" method="get">
-        	<input type="number" th:field="${user.id}" placeholder="123" />
-        	<button type="submit" th:value="#{form.submit}">Search by Id</button>
-        </form> -->
-        
-        <form th:action="@{/users/search/id}" method="get">
-        	<input type="number" th:name="id" placeholder="123" />
-        	<button type="submit">Search by Id</button>
-        </form>
-        
-        <h1>OR</h1>
-        
-        <form th:action="@{/users/search/name}" method="get">
-        	<input type="text" th:name="name" placeholder="johndoe yo~" />
-        	<button type="submit">Search by Name</button>
-        </form>
-        
-        <h1>OR</h1>
-        
-        <form th:action="@{/users/search/email}" method="get">
-        	<input type="email" th:name="email" placeholder="email@yoyo" />
-        	<button type="submit">Search by Email</button>
-        </form>
-        
-        <div th:if="${isFound}">
-        	<h2> Found! </h2>
+<!DOCTYPE html>
+<html lang="en">
 
-        	<table>
-				<tr>
-					<th>ID</th>
-			        <th>NAME</th>
-			        <th>EMAIL</th>
-		      	</tr>
-		      	
-				<tr th:each="resultU : ${resultUList}">
-					<td th:text="${resultU.id}"></td>
-					<td th:text="${resultU.name}"></td>
-					<td th:text="${resultU.email}"></td>
-					<td><a th:href="@{/users/user/{id}(id=${resultU.id})}"><span>View</span></a></td>
-				</tr>
-			</table>
-        </div>
-        <div th:if="${isFound} == false">
-        	<h2> Not found! </h2>
-        </div>
-    </body>
+<head>
+    <title></title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" th:href="@{/css/bulma.css}"/>
+
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.1.4/flatpickr.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+	<div class="field">
+	    <form action="#" th:action="@{/users}" th:object="${user}" method="post">
+	        <table>
+	            <tr>
+	                <td>Name:</td>
+	                <td><input class ="input" type="text" th:field="*{name}" /></td>
+	                <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
+	            </tr>
+	            <tr>
+	                <td>Email:</td>
+	                <td><input type="email" th:field="*{email}" placeholder="your@email" /></td>
+	                <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</td>
+	            </tr>
+	            <tr>
+	                <td><button type="submit" th:value="#{form.submit}">Submit</button></td>
+	            </tr>
+	        </table>
+	    </form>
+    </div>
+    
+    <div th:if="${isInsert}">
+    	<h2> Successful insert! </h2>
+    	<h2 th:text="${user.name}"></h2>
+    	<h2 th:text="${user.email}"></h2>
+    </div>
+    <div th:if="${isInsert} == false">
+    	<h2> Unsuccessful! </h2>
+    	<h2 th:text="${user.name}"></h2>
+    	<h2 th:text="${user.email}"></h2>
+    </div>
+    
+    <form action="/users/all"> 
+    	<input type="submit" value="View All"/>
+    </form>
+    
+    <!-- <form action="/users/search/{id})" method="get">
+  	<input type="number" th:field="${user.id}" placeholder="123" />
+  	<button type="submit" th:value="#{form.submit}">Search by Id</button>
+  </form> -->
+     
+    <form th:action="@{/users/search/id}" method="get">
+    	<input type="number" th:name="id" placeholder="123" />
+    	<button type="submit">Search by Id</button>
+    </form>
+     
+    <h1>OR</h1>
+    
+    <form th:action="@{/users/search/name}" method="get">
+    	<input type="text" th:name="name" placeholder="johndoe yo~" />
+    	<button type="submit">Search by Name</button>
+    </form>
+    
+    <h1>OR</h1>
+    
+    <form th:action="@{/users/search/email}" method="get">
+    	<input type="email" th:name="email" placeholder="email@yoyo" />
+    	<button type="submit">Search by Email</button>
+    </form>
+     
+    <div th:if="${isFound}">
+    	<h2> Found! </h2>
+
+    	<table>
+			<tr>
+				<th>ID</th>
+       			<th>NAME</th>
+       			<th>EMAIL</th>
+    		</tr>
+    	
+			<tr th:each="resultU : ${resultUList}">
+				<td th:text="${resultU.id}"></td>
+				<td th:text="${resultU.name}"></td>
+				<td th:text="${resultU.email}"></td>
+				<td><a th:href="@{/users/user/{id}(id=${resultU.id})}"><span>View</span></a></td>
+			</tr>
+		</table>
+    </div>
+    
+	<div th:if="${isFound} == false">
+    	<h2> Not found! </h2>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.1.4/flatpickr.min.js"></script>
+    <script src="script/script.js"></script>
+    
+</body>
 </html>
