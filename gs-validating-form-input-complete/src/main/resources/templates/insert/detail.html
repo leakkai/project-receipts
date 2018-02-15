@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" th:href="@{/css/bulma.css}"/>
+
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.1.4/flatpickr.min.css}"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+</head>
+
+<body>
+    <section>
+        <div class="container">          
+	        <div class="field">
+				<div class="hero is-small is-info">
+					<div class="hero-body">
+						<div class="container">
+							<h1 class="title is-1">
+								Insert
+							</h1>
+							
+							<h2 class="subtitle">
+				        		Detail
+							</h2>
+				    	</div>
+				  	</div>
+				</div>
+			</div>
+				
+				      
+            <form class="form" action="" method="POST">
+            	<table class>
+            	
+            	
+            	
+            	
+            	</table>
+            
+            
+            
+            
+				<div class="field">
+                    <label class="label">Date</label>
+                    <div class="control">
+                        <input type="text" class="input date" name="date"/>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Name</label>
+                    <div class="control">
+                        <input class="input" name="name" type="text" placeholder="e.g NamaName"/>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Street Address</label>
+                    <div class="control">
+                        <input class="input" name="street" type="text" placeholder="e.g 42S, University Pl, Apt 4"/>
+                    </div>
+                </div>
+
+                <div class="field is-grouped">
+                    <div class="control">
+                        <label class="label">City</label>
+                        <input class="input" name="city" type="text" placeholder="e.g Stillwater"/>
+                    </div>
+                    <div class="control">
+                        <label class="label">Zip Code</label>
+                        <input class="input" name="code" type="text" placeholder="e.g 74075"/>
+                    </div>
+                    <div class="control">
+                        <label class="label">State</label>
+                        <input class="input" name="state" type="text" placeholder="e.g Oklahoma"/>
+                    </div>
+                    <div class="control">
+                        <label class="label">Country</label>
+                        <input class="input" name="country" type="text" placeholder="e.g US"/>
+                    </div>
+                </div>
+
+                <div class="control">
+                    <button class="button is-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.1.4/flatpickr.min.js}"></script>
+    <script th:src="@{/script/script.js}"></script>
+</body>
+
+</html>
