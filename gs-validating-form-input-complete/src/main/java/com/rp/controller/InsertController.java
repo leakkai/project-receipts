@@ -16,7 +16,7 @@ public class InsertController {
 	
     @GetMapping("/")
     public String simpleView() {
-    	return "/insert/insert-header";
+    	return "/insert/header";
     }
     
     
