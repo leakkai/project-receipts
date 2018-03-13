@@ -25,8 +25,8 @@ public class ReceiptHeader implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdDate;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date date;
+//	@Temporal(TemporalType.TIMESTAMP)
+	private String date;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastModDate;
@@ -62,11 +62,11 @@ public class ReceiptHeader implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return this.date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 
