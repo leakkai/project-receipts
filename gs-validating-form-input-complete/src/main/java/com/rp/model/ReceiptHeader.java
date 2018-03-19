@@ -1,9 +1,18 @@
 package com.rp.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 /**
@@ -22,14 +31,11 @@ public class ReceiptHeader implements Serializable {
 
 	private BigDecimal amount;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date createdDate;
+	private LocalDateTime createdDate;
 
-//	@Temporal(TemporalType.TIMESTAMP)
-	private String date;
+	private LocalDateTime date;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date lastModDate;
+	private LocalDateTime lastModDate;
 
 	private String paymentType;
 
@@ -54,27 +60,27 @@ public class ReceiptHeader implements Serializable {
 		this.amount = amount;
 	}
 
-	public Date getCreatedDate() {
+	public LocalDateTime getCreatedDate() {
 		return this.createdDate;
 	}
 
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
+	public void setCreatedDate(LocalDateTime localDateTime) {
+		this.createdDate = localDateTime;
 	}
 
-	public String getDate() {
+	public LocalDateTime getDate() {
 		return this.date;
 	}
 
-	public void setDate(String date) {
+	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
 
-	public Date getLastModDate() {
+	public LocalDateTime getLastModDate() {
 		return this.lastModDate;
 	}
 
-	public void setLastModDate(Date lastModDate) {
+	public void setLastModDate(LocalDateTime lastModDate) {
 		this.lastModDate = lastModDate;
 	}
 

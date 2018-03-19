@@ -1,6 +1,9 @@
 package com.rp.controller;
 
-import java.util.Date;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 
 import javax.validation.Valid;
 
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.rp.model.ReceiptHeader;
+import com.rp.model.RequestHeader;
 import com.rp.repository.ReceiptHeaderRepo;
 
 @Controller    // This means that this class is a Controller
@@ -24,29 +28,39 @@ public class ReceiptHeaderController {
 	
 	private ReceiptHeaderRepo rhRepo;
 	
-    @GetMapping("/")
-    public String simpleView() {
+    @GetMapping("")
+    public String simpleView(Model model) {
+    	model.addAttribute("req", new RequestHeader());
     	return "/receipt/header";
     }
     
     
-    @PostMapping("")
-    public String addReceiptHeader(@Valid ReceiptHeader rh, BindingResult bindingResult, Model model) {
+    
+	@PostMapping("")
+    public String addReceiptHeader(@Valid RequestHeader req, BindingResult bindingResult, Model model) throws ParseException {
 
         if (bindingResult.hasErrors()) {
             return "rh";
         }
         
-        Date d = new Date();
-        d.getDate();
+        if (null != req.getDate()) {
+        	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+//        	LocalDateTime date = req.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        	
+        }
+        
         
         ReceiptHeader r = new ReceiptHeader();
-//        r.setDate(d);
+        r.setDate(req.getDate());
         r.setStoreId(123);
-        r.setAmount(rh.getAmount());
+        r.setAmount(new BigDecimal(123));
         r.setPaymentType("cingcai");
-        r.setCreatedDate(d);
-        r.setLastModDate(d);
+        r.setCreatedDate(LocalDateTime.now());
+        r.setLastModDate(LocalDateTime.now());
+        
+        
+        
+        
         
         rhRepo.save(r);
         
