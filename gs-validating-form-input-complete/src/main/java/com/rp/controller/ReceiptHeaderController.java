@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.rp.model.RequestDetail;
 import com.rp.model.RequestHeader;
 
 @Controller    // This means that this class is a Controller
@@ -27,6 +28,12 @@ public class ReceiptHeaderController {
     public String simpleView(Model model) {
     	model.addAttribute("req", new RequestHeader());
     	return "/receipt/header";
+    }
+    
+    @GetMapping("/detail")
+    public String simpleDetail(Model model) {
+    	model.addAttribute("detail", new RequestDetail());
+    	return "/receipt/detail";
     }
     
 	@PostMapping("")

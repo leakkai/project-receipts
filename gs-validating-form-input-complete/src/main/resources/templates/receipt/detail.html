@@ -31,13 +31,32 @@
 			</div>
 				
 				      
-            <form class="form" action="" method="POST">
-            	<table class>
-            	
-            	
-            	
-            	
-            	</table>
+            <form class="form" th:action="@{/receipt/detail}" th:object="${detail}" action="" method="POST">
+	            <div class="field">
+	            	<table class="table">
+	            		<thead>
+							<tr>
+								<th>No.</th>
+						        <th>Name</th>
+						        <th>Qty</th>
+						        <th>Unit Price</th>
+						        <th>Price</th>
+						        <th>Tax</th>
+					      	</tr>
+				      	</thead>
+				      	<tbody>
+				      	
+							<tr class="control">
+								<th>1</th>
+								<td><input class="input" type="text" th:field="*{name}"/></td>
+								<td><input class="input numnber" type="number" th:field="*{quantity}" placeholder="123"/></td>
+								<td><input class="input numnber" type="number" th:field="*{unitPrice}" placeholder="123"/></td>
+								<td><input class="input numnber" type="number" th:field="*{price}" placeholder="123"/></td>
+								<td><input class="checkbox" type="checkbox" th:field="*{tax}" placeholder="true"/></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
             
             
             
@@ -45,7 +64,7 @@
 				<div class="field">
                     <label class="label">Date</label>
                     <div class="control">
-                        <input type="text" class="input date" name="date"/>
+                        <input class="input date" type="text" name="date"/>
                     </div>
                 </div>
 
