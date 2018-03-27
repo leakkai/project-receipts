@@ -1,8 +1,14 @@
 package com.rp.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 
 /**
@@ -10,6 +16,7 @@ import java.util.Date;
  * 
  */
 @Entity
+@Table(name="store")
 @NamedQuery(name="Store.findAll", query="SELECT s FROM Store s")
 public class Store implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -20,11 +27,9 @@ public class Store implements Serializable {
 
 	private int addressId;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date createdDate;
+	private LocalDateTime createdDate;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date lastModDate;
+	private LocalDateTime lastModDate;
 
 	private String storeName;
 
@@ -49,19 +54,19 @@ public class Store implements Serializable {
 		this.addressId = addressId;
 	}
 
-	public Date getCreatedDate() {
+	public LocalDateTime getCreatedDate() {
 		return this.createdDate;
 	}
 
-	public void setCreatedDate(Date createdDate) {
+	public void setCreatedDate(LocalDateTime createdDate) {
 		this.createdDate = createdDate;
 	}
 
-	public Date getLastModDate() {
+	public LocalDateTime getLastModDate() {
 		return this.lastModDate;
 	}
 
-	public void setLastModDate(Date lastModDate) {
+	public void setLastModDate(LocalDateTime lastModDate) {
 		this.lastModDate = lastModDate;
 	}
 

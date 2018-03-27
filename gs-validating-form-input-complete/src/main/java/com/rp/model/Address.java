@@ -1,6 +1,8 @@
 package com.rp.model;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -27,11 +29,9 @@ public class Address implements Serializable {
 
 	private String country;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date createdDate;
+	private LocalDateTime createdDate;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date lastModDate;
+	private LocalDateTime lastModDate;
 
 	private String postalCode;
 
@@ -88,19 +88,19 @@ public class Address implements Serializable {
 		this.country = country;
 	}
 
-	public Date getCreatedDate() {
+	public LocalDateTime getCreatedDate() {
 		return this.createdDate;
 	}
 
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
+	public void setCreatedDate(LocalDateTime current) {
+		this.createdDate = current;
 	}
 
-	public Date getLastModDate() {
+	public LocalDateTime getLastModDate() {
 		return this.lastModDate;
 	}
 
-	public void setLastModDate(Date lastModDate) {
+	public void setLastModDate(LocalDateTime lastModDate) {
 		this.lastModDate = lastModDate;
 	}
 

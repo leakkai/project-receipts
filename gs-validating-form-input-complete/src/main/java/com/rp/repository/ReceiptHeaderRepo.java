@@ -15,4 +15,7 @@ public interface ReceiptHeaderRepo extends CrudRepository<ReceiptHeader, Long> {
 
 	@Query("select rh from ReceiptHeader rh where rh.id = :id")
 	List<ReceiptHeader> findById(@Param("id") int id);
+	
+	@Query("select rh from ReceiptHeader rh where rh.paymentType = :pt")
+	List<ReceiptHeader> findByPT(@Param("pt") String pt);
 }
