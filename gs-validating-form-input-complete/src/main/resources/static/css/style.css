@@ -20,3 +20,39 @@ section{
     padding: 2rem;
     border: 1px solid #eee;
 }
+
+.hide {
+	display: none !important;
+}
+
+.table-add {
+  cursor: pointer;
+/*   position: absolute;
+  top: 8px;
+  right: 0; */
+}
+
+.fa-plus {
+ 	color: #070;
+}
+.fa-plus:hover {
+	color: #0b0;
+}
+
+.iconz::before {
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    cursor: pointer;
+}
+
+.fa-times {
+	color: #ffe8ec;
+}
+
+.fa-times:hover {
+	color: #ff3860;
+}
+
+.qty {
+	width: relative;
+}
