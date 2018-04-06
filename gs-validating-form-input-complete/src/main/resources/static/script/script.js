@@ -7,6 +7,7 @@ var $TABLE = $('#table');
 $('.table-add').click(function () {
   var $clone = $TABLE.find('tr.hide').clone(true).removeClass('hide table-line');
   $TABLE.find('table').append($clone);
+  
   var a = parseInt($('#srnos').text(), 10) + 1;
   $('#srnos').text(a);
 });
@@ -24,4 +25,17 @@ $('.table-up').click(function () {
 $('.table-down').click(function () {
   var $row = $(this).parents('tr');
   $row.next().after($row.get(0));
+});
+
+if($('#qty').val()) {
+	$('#price').text($('#qty').val());
+}
+
+$('#uPrice').on('focus', function(e) {
+    $(window).keyup(function (e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if (code == 9) {
+        	$('#price').text($('#qty').val());
+        }
+    });
 });
