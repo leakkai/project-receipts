@@ -3,6 +3,7 @@ flatpickr(".date", {
 });
 
 var $TABLE = $('#table');
+var isTabOut = false;
 
 $('.table-add').click(function () {
   var $clone = $TABLE.find('tr.hide').clone(true).removeClass('hide table-line');
@@ -27,15 +28,22 @@ $('.table-down').click(function () {
   $row.next().after($row.get(0));
 });
 
-if($('#qty').val()) {
-	$('#price').text($('#qty').val());
-}
+$('.uPrice').on('focusout', function() {
+	if (isTabOut) {
+		var $row = $(this).parent().parent();
+		
+		var qty = $row.find(".qty").val();
+		var unitPrice = $row.find(".uPrice").val();
+		
+		var priceSum = qty * unitPrice;
+		
+		$row.find(".price").text(priceSum);
+	}
+});
 
-$('#uPrice').on('focus', function(e) {
-    $(window).keyup(function (e) {
-        var code = (e.keyCode ? e.keyCode : e.which);
-        if (code == 9) {
-        	$('#price').text($('#qty').val());
-        }
-    });
+$(window).keyup(function (e) {
+    var code = (e.keyCode ? e.keyCode : e.which);
+    if (code == 9) {        	
+    	isTabOut = true;
+    }
 });
