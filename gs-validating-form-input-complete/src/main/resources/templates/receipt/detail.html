@@ -65,9 +65,9 @@
 								<td><input class="input" type="text" th:field="*{name}"/></td>
 								<td><input class="input qty" type="number" min="1" th:field="*{quantity}" placeholder="123"/></td>
 								<td><input class="input uPrice" type="number" step="0.01" min="0" th:field="*{unitPrice}" placeholder="123.00"/></td>
-								<td class="price"><input class="input" type="hidden" step="0.01" min="0" th:field="*{price}" placeholder="123.00"/></td>
+								<td><div class="price"></div><input class="priceVal input" type="hidden" step="0.01" min="0" th:field="*{price}" placeholder="123.00"/></td>
 								<td><input class="checkbox" type="checkbox" th:field="*{tax}" placeholder="true"/></td>
-								<td><span class="icon has-text-danger is-medium"><i class="iconz fas fa-times fa-2x"></i></span></td>
+								<td><span class="table-remove icon has-text-danger is-medium"><i class="iconz fas fa-times fa-2x"></i></span></td>
 							</tr>
 							
 							<tr class="hide">
@@ -75,9 +75,9 @@
 								<td><input class="input" type="text" th:field="*{name}"/></td>
 								<td><input class="input qty" type="number" min="1" th:field="*{quantity}" placeholder="123"/></td>
 								<td><input class="input uPrice" type="number" step="0.01" min="0" th:field="*{unitPrice}" placeholder="123.00"/></td>
-								<td class="price"><input class="input" type="hidden" step="0.01" min="0" th:field="*{price}" placeholder="123.00"/></td>
+								<td><div class="price"></div><input class="priceVal input" type="hidden" step="0.01" min="0" th:field="*{price}" placeholder="123.00"/></td>
 								<td><input class="checkbox" type="checkbox" th:field="*{tax}" placeholder="true"/></td>
-								<td><span class="icon has-text-danger is-medium"><i class="iconz fas fa-times fa-2x"></i></span></td>
+								<td><span class="table-remove icon has-text-danger is-medium"><i class="iconz fas fa-times fa-2x"></i></span></td>
 							</tr>
 							
 						</tbody>
@@ -98,7 +98,7 @@
 								<th></th>
 								<th></th>
 								<th style="text-align:right">Tax:</th>
-								<td id="tax"><input class="input" type="hidden"/></td>
+								<td><div id="taxText"></div><input id="taxVal" class="input" type="hidden" value="0.00"/></td>
 								<td></td>
 								<td></td>
 							</tr>
@@ -108,7 +108,7 @@
 								<th></th>
 								<th></th>
 								<th style="text-align:right">Tips:</th>
-								<td id="tips"><input class="input" type="hidden"/></td>
+								<td><input id="tips" class="input" type="number" step="0.01" min="0"/></td>
 								<td></td>
 								<td></td>
 							</tr>
@@ -118,7 +118,7 @@
 								<th></th>
 								<th></th>
 								<th style="text-align:right">Grand Total:</th>
-								<td id="Grandtotal"><input class="input" type="hidden"/></td>
+								<td><div id="grandTotalText"></div><input id="grandTotalVal" class="input" type="hidden"/></td>
 								<td></td>
 								<td></td>
 							</tr>
@@ -134,7 +134,7 @@
     </section>
 
     <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.1.4/flatpickr.min.js}"></script>
-    <script th:src="@{/script/script.js}"></script>   
+    <script th:src="@{/script/script.js}"></script>
 </body>
 
 </html>

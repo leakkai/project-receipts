@@ -12,6 +12,10 @@ $(window).keyup(function (e) {
     }
 });
 
+var total = 0.00;
+var tax = 0.00;
+var tips = 0.00;
+
 $('.table-add').click(function () {
   var $clone = $TABLE.find('tr.hide').clone(true).removeClass('hide table-line').addClass('control');
   $TABLE.find('table').append($clone);
@@ -46,31 +50,84 @@ $('.uPrice').on('focusout', function() {
 	var priceSum = qty * unitPrice;
 	
 	$row.find(".price").text(priceSum);
-	$row.find(".price").children('input').val(priceSum);
+	$row.find(".priceVal").val(priceSum);
+	
+	total += priceSum;
 	
 	getTotal();
+	
+	getGrandTotal();
 });
 
-$('.control .checkbox').click(function () {
+$('.checkbox').click(function () {
 	
 	var tax = 0.00;
 	
+	tax = $(this).parent().prev().text();
+	
 	if ($(this).prop('checked')) {
-		tax = $(this).parent().prev.text();
+		setTax(parseFloat(tax, 10), true);
 	}
+	else {
+		setTax(parseFloat(tax, 10), false);
+	}
+	
+	getGrandTotal();
+});
+
+$('#tips').on('focusout', function() {
+	tips = parseFloat($(this).val(), 10);
+	
+	getGrandTotal();
 });
 
 function getTotal() {
-	var total = 0;
 	
 	$('.control .price').each(function() {
-		var tax = $(this).next().children('.checkbox').prop('checked');
+//		var tax = $(this).parent().next().children('.checkbox').prop('checked');
 		
-		total += parseFloat($(this).text(), 10);
+//		total += parseFloat($(this).text(), 10);
 	});
 
 	$('#dummyTotal').text(total);
 	$('#total').val(total);
 	
 	return;
+}
+
+function setTax(aTax, isAdd) {
+
+	var totalTax = parseFloat($('#taxVal').val(), 10);
+	aTax = aTax * 0.0825;
+	
+	if (isAdd) {
+		$('#taxVal').val(round(totalTax + aTax, 2));
+	}
+	else {
+		$('#taxVal').val(round(totalTax - aTax, 2));
+	}
+	
+	tax = parseFloat($('#taxVal').val(), 10);
+	
+	$('#taxText').text(tax);
+}
+
+function round(number, precision) {
+	var shift = function (number, precision, reverseShift) {
+		if (reverseShift) {
+			precision = -precision;
+		}  
+		
+		var numArray = ("" + number).split("e");
+		
+		return +(numArray[0] + "e" + (numArray[1] ? (+numArray[1] + precision) : precision));
+	};
+	return shift(Math.round(shift(number, precision, false)), precision, true);
+}
+
+function getGrandTotal() {
+	var grand = round(total + tax + tips, 2);
+	
+	$('#grandTotalVal').val(grand);
+	$('#grandTotalText').text(grand);
 }
