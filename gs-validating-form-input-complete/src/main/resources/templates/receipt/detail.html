@@ -41,7 +41,7 @@
 			</div>
 				
 				      
-            <form class="form" th:action="@{/receipt/detail}" th:object="${detail}" action="" method="POST">
+            <form class="form" th:action="@{/receipt/processDetail}" th:object="${det}" action="" method="POST">
 	            <div id="table">
 	            	
             		<span class="table-add has-text-success is-medium"><i class="iconz fas fa-plus fa-2x"></i></span>
@@ -88,7 +88,7 @@
 								<th></th>
 								<th></th>
 								<th style="text-align:right">Total:</th>
-								<td><div id="dummyTotal"></div><input id="total" class="input" type="hidden" step="0.01" min="0" placeholder="123.00"/></td>
+								<td><div id="dummyTotal"></div><input id="total" class="input" type="hidden" step="0.01" min="0" th:field="total"/></td>
 								<td></td>
 								<td></td>
 							</tr>
@@ -98,7 +98,7 @@
 								<th></th>
 								<th></th>
 								<th style="text-align:right">Tax:</th>
-								<td><div id="taxText"></div><input id="taxVal" class="input" type="hidden" value="0.00"/></td>
+								<td><div id="taxText"></div><input id="taxVal" class="input" type="hidden" value="0.00" th:field="*{totalTax}"/></td>
 								<td></td>
 								<td></td>
 							</tr>
@@ -108,7 +108,7 @@
 								<th></th>
 								<th></th>
 								<th style="text-align:right">Tips:</th>
-								<td><input id="tips" class="input" type="number" step="0.01" min="0"/></td>
+								<td><input id="tips" class="input" type="number" step="0.01" min="0" th:field="*{tips}"/></td>
 								<td></td>
 								<td></td>
 							</tr>
@@ -118,7 +118,7 @@
 								<th></th>
 								<th></th>
 								<th style="text-align:right">Grand Total:</th>
-								<td><div id="grandTotalText"></div><input id="grandTotalVal" class="input" type="hidden"/></td>
+								<td><div id="grandTotalText"></div><input id="grandTotalVal" class="input" type="hidden" th:field="*{grandTotal}"/></td>
 								<td></td>
 								<td></td>
 							</tr>

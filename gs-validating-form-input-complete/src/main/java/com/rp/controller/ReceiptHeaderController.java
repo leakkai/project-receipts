@@ -17,7 +17,7 @@ import com.rp.model.RequestDetail;
 import com.rp.model.RequestHeader;
 
 @Controller    // This means that this class is a Controller
-@RequestMapping(path="/receipt") // This means URL's start with /user (after Application path)
+@RequestMapping(path="/receipt/") // This means URL's start with /user (after Application path)
 public class ReceiptHeaderController {
 
 	@Autowired// This means to let Spring auto create the bean
@@ -32,11 +32,11 @@ public class ReceiptHeaderController {
     
     @GetMapping("/detail")
     public String simpleDetail(Model model) {
-    	model.addAttribute("detail", new RequestDetail());
+    	model.addAttribute("det", new RequestDetail());
     	return "/receipt/detail";
     }
     
-	@PostMapping("")
+	@PostMapping("processHeader")
     public String addReceiptHeader(@Valid RequestHeader req, BindingResult bindingResult, Model model) throws ParseException {
 
         if (bindingResult.hasErrors()) {
@@ -91,6 +91,49 @@ public class ReceiptHeaderController {
         return "/receipt/header";
     }
     
+	@PostMapping("processDetail")
+    public String addReceiptDetail(@Valid RequestDetail req, BindingResult bindingResult, Model model) throws ParseException {
+
+        if (bindingResult.hasErrors()) {
+            return "rh";
+        }
+        
+        LocalDateTime receiptDate = req.getDate();
+        String storeName = req.getName();
+        String street = req.getStreet();
+        String city = req.getCity();
+        String zipCode = req.getCode();
+        String state = req.getState();
+        String country = req.getCountry();
+    	
+        //validate all req fields
+        if (null != req) {
+        	if (null == receiptDate || null == storeName || null == street || null == city || null == zipCode || null == state || null == country) {
+        		//gg error
+        		return "rh";
+        	}
+        }
+        
+        
+        
+        
+        svc.processHeader(receiptDate, storeName, street, city, zipCode, state, country);
+        return "/receipt/header";
+    }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
     /*
 	@GetMapping(path="/add") // Map ONLY GET Requests
 	public @ResponseBody String addNewUser (@RequestParam String name, @RequestParam String email) {
