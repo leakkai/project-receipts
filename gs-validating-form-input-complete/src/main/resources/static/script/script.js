@@ -20,14 +20,16 @@ $('.table-add').click(function () {
   var $clone = $TABLE.find('tr.hide').clone(true).removeClass('hide table-line').addClass('control');
   $TABLE.find('table').append($clone);
   
-//  $clone.toggleClass('change_me newClass');
-  
   var a = parseInt($('#srnos').text(), 10) + 1;
   $('#srnos').text(a);
 });
 
 $('.table-remove').click(function () {
-  $(this).parents('tr').detach();
+	var $row = $(this).parents('tr');
+	
+	if ($row.index() === 1) return; // Don't go above the header
+	
+	$(this).parents('tr').detach();
 });
 
 //$('.table-up').click(function () {
@@ -61,16 +63,18 @@ $('.uPrice').on('focusout', function() {
 
 $('.checkbox').click(function () {
 	
-	var tax = 0.00;
+	var tempPrice = $(this).parent().prev().children('.price').text();
 	
-	tax = $(this).parent().prev().text();
+	var indiTax = 0;
 	
 	if ($(this).prop('checked')) {
-		setTax(parseFloat(tax, 10), true);
+		indiTax = setTax(parseFloat(tempPrice, 10), true);
 	}
 	else {
-		setTax(parseFloat(tax, 10), false);
+		indiTax = setTax(parseFloat(tempPrice, 10), false);
 	}
+	
+	$(this).prev().text(indiTax);
 	
 	getGrandTotal();
 });
@@ -97,7 +101,12 @@ function getTotal() {
 
 function setTax(aTax, isAdd) {
 
-	var totalTax = parseFloat($('#taxVal').val(), 10);
+	var taxVal = $('#taxVal').val();
+	if (taxVal == '') {
+		taxVal = 0.00;
+	}
+	
+	var totalTax = parseFloat(taxVal, 10);
 	aTax = aTax * 0.0825;
 	
 	if (isAdd) {
@@ -110,6 +119,8 @@ function setTax(aTax, isAdd) {
 	tax = parseFloat($('#taxVal').val(), 10);
 	
 	$('#taxText').text(tax);
+	
+	return aTax;
 }
 
 function round(number, precision) {
@@ -131,3 +142,7 @@ function getGrandTotal() {
 	$('#grandTotalVal').val(grand);
 	$('#grandTotalText').text(grand);
 }
+
+$('#saveDetail').click(function () {
+	$TABLE.find('tr.hide').remove();
+});

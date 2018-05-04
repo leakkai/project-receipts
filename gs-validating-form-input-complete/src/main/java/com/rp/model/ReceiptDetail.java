@@ -1,9 +1,15 @@
 package com.rp.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 
 /**
@@ -24,11 +30,9 @@ public class ReceiptDetail implements Serializable {
 
 	private int commoviceId;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date createdDate;
+	private LocalDateTime createdDate;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date lastModDate;
+	private LocalDateTime lastModDate;
 
 	private BigDecimal price;
 
@@ -67,19 +71,19 @@ public class ReceiptDetail implements Serializable {
 		this.commoviceId = commoviceId;
 	}
 
-	public Date getCreatedDate() {
+	public LocalDateTime getCreatedDate() {
 		return this.createdDate;
 	}
 
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
+	public void setCreatedDate(LocalDateTime current) {
+		this.createdDate = current;
 	}
 
-	public Date getLastModDate() {
+	public LocalDateTime getLastModDate() {
 		return this.lastModDate;
 	}
 
-	public void setLastModDate(Date lastModDate) {
+	public void setLastModDate(LocalDateTime lastModDate) {
 		this.lastModDate = lastModDate;
 	}
 

@@ -1,8 +1,14 @@
 package com.rp.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 
 
 /**
@@ -22,19 +28,19 @@ public class Commovice implements Serializable {
 
 	private String category;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date createdDate;
+	private LocalDateTime createdDate;
 
 	private String description;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date lastModDate;
+	private LocalDateTime lastModDate;
 
 	private String model;
 
 	private String name;
 
 	private String subCategory;
+	
+	private int storeId;
 
 	public Commovice() {
 	}
@@ -63,11 +69,11 @@ public class Commovice implements Serializable {
 		this.category = category;
 	}
 
-	public Date getCreatedDate() {
+	public LocalDateTime getCreatedDate() {
 		return this.createdDate;
 	}
 
-	public void setCreatedDate(Date createdDate) {
+	public void setCreatedDate(LocalDateTime createdDate) {
 		this.createdDate = createdDate;
 	}
 
@@ -79,11 +85,11 @@ public class Commovice implements Serializable {
 		this.description = description;
 	}
 
-	public Date getLastModDate() {
+	public LocalDateTime getLastModDate() {
 		return this.lastModDate;
 	}
 
-	public void setLastModDate(Date lastModDate) {
+	public void setLastModDate(LocalDateTime lastModDate) {
 		this.lastModDate = lastModDate;
 	}
 
@@ -109,6 +115,14 @@ public class Commovice implements Serializable {
 
 	public void setSubCategory(String subCategory) {
 		this.subCategory = subCategory;
+	}
+
+	public int getStoreId() {
+		return storeId;
+	}
+
+	public void setStoreId(int storeId) {
+		this.storeId = storeId;
 	}
 
 }

@@ -13,13 +13,15 @@ public class RequestDetail implements Serializable {
 
 	private List<String> name;
 
-	private List<BigDecimal> quantity;
+	private List<Integer> quantity;
 	
 	private List<BigDecimal> unitPrice;
 	
 	private List<BigDecimal> price;
 	
-	private boolean[] tax;
+	private List<BigDecimal> tax;
+	
+	private boolean dummyTax;
 	
 	private BigDecimal total;
 	
@@ -37,11 +39,11 @@ public class RequestDetail implements Serializable {
 		this.name = name;
 	}
 
-	public List<BigDecimal> getQuantity() {
+	public List<Integer> getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(List<BigDecimal> quantity) {
+	public void setQuantity(List<Integer> quantity) {
 		this.quantity = quantity;
 	}
 
@@ -61,11 +63,11 @@ public class RequestDetail implements Serializable {
 		this.price = price;
 	}
 
-	public boolean[] isTax() {
+	public List<BigDecimal> getTax() {
 		return tax;
 	}
 
-	public void setTax(boolean[] tax) {
+	public void setTax(List<BigDecimal> tax) {
 		this.tax = tax;
 	}
 
@@ -99,5 +101,13 @@ public class RequestDetail implements Serializable {
 
 	public void setGrandTotal(BigDecimal grandTotal) {
 		this.grandTotal = grandTotal;
+	}
+
+	public boolean isDummyTax() {
+		return dummyTax;
+	}
+
+	public void setDummyTax(boolean dummyTax) {
+		this.dummyTax = dummyTax;
 	}
 }
