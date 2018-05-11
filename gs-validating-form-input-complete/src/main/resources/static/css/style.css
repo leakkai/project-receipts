@@ -56,3 +56,15 @@ section{
 .qty {
 	width: relative;
 }
+
+.fa-usd {
+	color: #c1c1c1;
+}
+
+.fa-usd:hover {
+	color: #26ff3b;
+}
+
+.fa-usd:active {
+	color: #2fb73d;
+}

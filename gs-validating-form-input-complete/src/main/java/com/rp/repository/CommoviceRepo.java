@@ -18,5 +18,5 @@ public interface CommoviceRepo extends CrudRepository<Commovice, Long> {
 	List<Commovice> findById(@Param("id") int id);
 	
 	@Query("select c.commoviceId from Commovice c where c.name = :name")
-	int getIdByName(@Param("name") String name);
+	Integer getIdByName(@Param("name") String name);
 }

@@ -130,16 +130,22 @@ public class ReceiptDetailSvc {
         for (int i = 0; i < rowNum; i++) {
         	ReceiptDetail newRD = new ReceiptDetail();
         	
-        	int comId = cmRepo.getIdByName(nameList.get(i));
-        	newRD.setCommoviceId(comId);
+        	Integer comId = cmRepo.getIdByName(nameList.get(i));
         	
+        	if (null == comId) {
+        		//item not found, need to create
+        		comId = 99;
+        	}
+        	newRD.setCommoviceId(comId);
         	newRD.setCreatedDate(current);
         	newRD.setLastModDate(current);
         	
         	newRD.setPrice(priceList.get(i));
         	newRD.setQuantity(qtyList.get(i));
         	
-//        	newRD.setTax(taxList.get(i));
+        	if (taxList.size() > 0) {
+        		newRD.setTax(taxList.get(i));
+        	}
         	
         	newRD.setUnitPrice(upList.get(i));
         	

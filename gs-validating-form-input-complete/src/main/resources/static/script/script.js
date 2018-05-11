@@ -61,20 +61,22 @@ $('.uPrice').on('focusout', function() {
 	getGrandTotal();
 });
 
-$('.checkbox').click(function () {
+$('.taxBox').click(function () {
 	
 	var tempPrice = $(this).parent().prev().children('.price').text();
 	
 	var indiTax = 0;
 	
-	if ($(this).prop('checked')) {
+	if ($(this).prev().val() <= 0 || $(this).prev().val() == '') {
 		indiTax = setTax(parseFloat(tempPrice, 10), true);
+		$(this).prev().val(indiTax);
+		$(this).removeClass('is-inverted');
 	}
 	else {
 		indiTax = setTax(parseFloat(tempPrice, 10), false);
+		$(this).prev().val(0);
+		$(this).addClass('is-inverted');
 	}
-	
-	$(this).prev().text(indiTax);
 	
 	getGrandTotal();
 });

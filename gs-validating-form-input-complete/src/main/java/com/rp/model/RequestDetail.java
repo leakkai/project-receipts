@@ -27,7 +27,7 @@ public class RequestDetail implements Serializable {
 	
 	private BigDecimal totalTax;
 	
-	private BigDecimal tips;
+	private BigDecimal tips = new BigDecimal(0);
 	
 	private BigDecimal grandTotal;
 
