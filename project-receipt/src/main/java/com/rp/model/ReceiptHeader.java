@@ -26,8 +26,14 @@ public class ReceiptHeader implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int transactionId;
 
-	private BigDecimal amount;
+	private BigDecimal total;
 
+	private BigDecimal grandTotal;
+	
+	private BigDecimal grandTax;
+	
+	private BigDecimal tips;
+	
 	private LocalDateTime createdDate;
 
 	private LocalDateTime date;
@@ -37,64 +43,108 @@ public class ReceiptHeader implements Serializable {
 	private String paymentType;
 
 	private int storeId;
+	
 
 	public ReceiptHeader() {
 	}
 
+
 	public int getTransactionId() {
-		return this.transactionId;
+		return transactionId;
 	}
+
 
 	public void setTransactionId(int transactionId) {
 		this.transactionId = transactionId;
 	}
 
-	public BigDecimal getAmount() {
-		return this.amount;
+
+	public BigDecimal getTotal() {
+		return total;
 	}
 
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount;
+
+	public void setTotal(BigDecimal total) {
+		this.total = total;
 	}
+
+
+	public BigDecimal getGrandTotal() {
+		return grandTotal;
+	}
+
+
+	public void setGrandTotal(BigDecimal grandTotal) {
+		this.grandTotal = grandTotal;
+	}
+
+
+	public BigDecimal getGrandTax() {
+		return grandTax;
+	}
+
+
+	public void setGrandTax(BigDecimal grandTax) {
+		this.grandTax = grandTax;
+	}
+
+
+	public BigDecimal getTips() {
+		return tips;
+	}
+
+
+	public void setTips(BigDecimal tips) {
+		this.tips = tips;
+	}
+
 
 	public LocalDateTime getCreatedDate() {
-		return this.createdDate;
+		return createdDate;
 	}
 
-	public void setCreatedDate(LocalDateTime localDateTime) {
-		this.createdDate = localDateTime;
+
+	public void setCreatedDate(LocalDateTime createdDate) {
+		this.createdDate = createdDate;
 	}
+
 
 	public LocalDateTime getDate() {
-		return this.date;
+		return date;
 	}
+
 
 	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
 
+
 	public LocalDateTime getLastModDate() {
-		return this.lastModDate;
+		return lastModDate;
 	}
+
 
 	public void setLastModDate(LocalDateTime lastModDate) {
 		this.lastModDate = lastModDate;
 	}
 
+
 	public String getPaymentType() {
-		return this.paymentType;
+		return paymentType;
 	}
+
 
 	public void setPaymentType(String paymentType) {
 		this.paymentType = paymentType;
 	}
 
+
 	public int getStoreId() {
-		return this.storeId;
+		return storeId;
 	}
+
 
 	public void setStoreId(int storeId) {
 		this.storeId = storeId;
 	}
-
 }

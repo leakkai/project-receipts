@@ -25,7 +25,9 @@ public class ReceiptHeaderSvc {
 	@Autowired
 	private ReceiptHeaderRepo rhRepo;
 	
-	public void processHeader(RequestClass header) {
+	public Integer processHeader(RequestClass header) {
+		
+		Integer headerId = null;
 		
 		try {
 			
@@ -36,6 +38,11 @@ public class ReceiptHeaderSvc {
 	        String zipCode = header.getCode();
 	        String state = header.getState();
 	        String country = header.getCountry();
+	        
+	        BigDecimal total = header.getTotal();
+	        BigDecimal tax = header.getTotalTax();
+	        BigDecimal tips = header.getTips();
+	        BigDecimal grandTotal = header.getGrandTotal();
 	        
 			//find exact store & address
 			List<Store> storeList = stSvc.findByName(storeName);
@@ -95,19 +102,36 @@ public class ReceiptHeaderSvc {
 				}
 			}
 			
+			
+			if (null == tax) {
+				tax = new BigDecimal(0);
+			}
+			
+			if (null == tips) {
+				tips = new BigDecimal(0);
+			}
+			
 			ReceiptHeader newRH = new ReceiptHeader();
 			LocalDateTime current = LocalDateTime.now();
-			newRH.setAmount(new BigDecimal(123));
+			
 			newRH.setDate(receiptDate);
+			newRH.setTotal(total);
+			newRH.setGrandTotal(grandTotal);
+			newRH.setGrandTax(tax);
+			newRH.setTips(tips);
 			newRH.setPaymentType("cingcai");
 			newRH.setStoreId(storeId);
 			newRH.setCreatedDate(current);
 			newRH.setLastModDate(current);
 			
 			rhRepo.save(newRH);
+
+			headerId = newRH.getTransactionId();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		return headerId;
 	}
 }

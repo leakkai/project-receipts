@@ -146,7 +146,7 @@ function getGrandTotal() {
 	$('#grandTotalText').text(grand);
 }
 
-$('#saveDetail').click(function () {
+$('#saveTransaction').click(function () {
 	$TABLE.find('tr.hide').remove();
 });
 

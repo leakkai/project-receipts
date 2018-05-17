@@ -1,7 +1,6 @@
 package com.rp.controller;
 
 import java.text.ParseException;
-import java.time.LocalDateTime;
 
 import javax.validation.Valid;
 
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.rp.model.RequestDetail;
 import com.rp.model.RequestClass;
 
 @Controller    // This means that this class is a Controller
@@ -33,11 +31,11 @@ public class ReceiptHeaderController {
     	return "/receipt/home";
     }
     
-    @GetMapping("/detail")
+/*    @GetMapping("/detail")
     public String simpleDetail(Model model) {
     	model.addAttribute("detail", new RequestDetail());
     	return "/receipt/detail";
-    }
+    }*/
     
 	@PostMapping("process")
     public String processTransaction(@Valid RequestClass request, BindingResult bindingResult, Model model) throws ParseException {
@@ -46,15 +44,20 @@ public class ReceiptHeaderController {
             return "rh";
         }        
 
-        rhSvc.processHeader(request);
+        Integer headerId = rhSvc.processHeader(request);
         
-        rdSvc.processDetail(request);
+        if (null == headerId) {
+        	//error creating or smtg
+        }
+        else {
+        	rdSvc.processDetail(request, headerId);
+        }
         
 //		model.addAttribute("isInsert", true);
 //        return "redirect:/results";
 //        return "forward:/results";
 //        return "results";
-        return "/receipt/header";
+        return this.simpleView(model);
     }
     
 //	@PostMapping("processDetail")

@@ -109,7 +109,7 @@ public class ReceiptDetailSvc {
 		}
 	}*/
 	
-	public void processDetail(RequestClass detail) {
+	public void processDetail(RequestClass detail, Integer headerId) {
 		
 		
         List<String> nameList = detail.getName();
@@ -117,11 +117,6 @@ public class ReceiptDetailSvc {
         List<BigDecimal> upList = detail.getUnitPrice();
         List<BigDecimal> priceList = detail.getPrice();
         List<BigDecimal> taxList = detail.getTax();
-        
-        BigDecimal total = detail.getTotal();
-        BigDecimal taxTotal = detail.getTotalTax();
-        BigDecimal tips = detail.getTips();
-        BigDecimal grandTotal = detail.getGrandTotal();
         
         int rowNum = nameList.size();
         
@@ -139,14 +134,19 @@ public class ReceiptDetailSvc {
         	}
         	
         	ReceiptDetail newRD = new ReceiptDetail();
+        	newRD.setTransactionId(headerId);
         	newRD.setCommoviceId(comId);
         	newRD.setCreatedDate(current);
         	newRD.setLastModDate(current);
         	
         	newRD.setPrice(priceList.get(i));
         	newRD.setQuantity(qtyList.get(i));
+
         	
-        	if (taxList.size() > 0) {
+        	if (taxList.isEmpty() || null == taxList.get(i)) {
+        		newRD.setTax(new BigDecimal(0));
+        	}
+        	else {
         		newRD.setTax(taxList.get(i));
         	}
         	

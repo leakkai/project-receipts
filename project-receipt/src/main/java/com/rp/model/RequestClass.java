@@ -3,6 +3,7 @@ package com.rp.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -37,7 +38,7 @@ public class RequestClass implements Serializable {
 	
 	private List<BigDecimal> price;
 	
-	private List<BigDecimal> tax;
+	private List<BigDecimal> tax = new ArrayList<BigDecimal>();
 	
 	private boolean dummyTax;
 	
