@@ -94,7 +94,8 @@ function getTotal() {
 		
 //		total += parseFloat($(this).text(), 10);
 	});
-
+	total = round(total, 2);
+	
 	$('#dummyTotal').text(total);
 	$('#total').val(total);
 	
@@ -147,4 +148,35 @@ function getGrandTotal() {
 
 $('#saveDetail').click(function () {
 	$TABLE.find('tr.hide').remove();
+});
+
+
+$('.table-add').click(function () {
+	  var $clone = $TABLE.find('tr.hide').clone(true).removeClass('hide table-line').addClass('control');
+	  $TABLE.find('table').append($clone);
+	  
+	  var a = parseInt($('#srnos').text(), 10) + 1;
+	  $('#srnos').text(a);
+	});
+
+
+
+$('#toTable').click(function(e) {
+    // target element id
+    var id = $TABLE;
+    
+    // target element
+    var $id = $(id);
+    if ($id.length === 0) {
+        return;
+    }
+    
+    // prevent standard hash navigation (avoid blinking in IE)
+    e.preventDefault();
+    
+    // top position relative to the document
+    var pos = $id.offset().top;
+    
+    // animated top scrolling
+    $('body, html').animate({scrollTop: pos});
 });

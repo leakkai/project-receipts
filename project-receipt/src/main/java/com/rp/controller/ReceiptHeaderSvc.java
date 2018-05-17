@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.rp.model.Address;
 import com.rp.model.ReceiptHeader;
+import com.rp.model.RequestClass;
 import com.rp.model.Store;
 import com.rp.repository.ReceiptHeaderRepo;
 
@@ -24,13 +25,22 @@ public class ReceiptHeaderSvc {
 	@Autowired
 	private ReceiptHeaderRepo rhRepo;
 	
-	public void processHeader(LocalDateTime receiptDate, String storeName, String street, String city, String postalCode, String state, String country) {
+	public void processHeader(RequestClass header) {
 		
 		try {
+			
+			LocalDateTime receiptDate = header.getDate();
+	        String storeName = header.getStoreName();
+	        String street = header.getStreet();
+	        String city = header.getCity();
+	        String zipCode = header.getCode();
+	        String state = header.getState();
+	        String country = header.getCountry();
+	        
 			//find exact store & address
 			List<Store> storeList = stSvc.findByName(storeName);
 
-			List<Address> addList = addSvc.findExactAddress(street, city, postalCode, state, country);
+			List<Address> addList = addSvc.findExactAddress(street, city, zipCode, state, country);
 			
 			Address add = null;
 			
@@ -50,7 +60,7 @@ public class ReceiptHeaderSvc {
 				
 				if (null == add) {
 					//create address for this store
-					addId = addSvc.createAddress(street, city, postalCode, state, country);
+					addId = addSvc.createAddress(street, city, zipCode, state, country);
 				}
 				else {
 					addId = add.getAddressId();
@@ -74,7 +84,7 @@ public class ReceiptHeaderSvc {
 				
 				if (null == add) {
 					//create address profile
-					addId = addSvc.createAddress(street, city, postalCode, state, country);
+					addId = addSvc.createAddress(street, city, zipCode, state, country);
 				}
 				
 				if (addId == 0) {

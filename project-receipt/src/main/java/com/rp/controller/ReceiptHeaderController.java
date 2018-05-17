@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.rp.model.RequestDetail;
-import com.rp.model.RequestHeader;
+import com.rp.model.RequestClass;
 
 @Controller    // This means that this class is a Controller
 @RequestMapping(path="/receipt/") // This means URL's start with /user (after Application path)
@@ -29,8 +29,8 @@ public class ReceiptHeaderController {
 	
     @GetMapping("")
     public String simpleView(Model model) {
-    	model.addAttribute("req", new RequestHeader());
-    	return "/receipt/header";
+    	model.addAttribute("request", new RequestClass());
+    	return "/receipt/home";
     }
     
     @GetMapping("/detail")
@@ -39,53 +39,16 @@ public class ReceiptHeaderController {
     	return "/receipt/detail";
     }
     
-	@PostMapping("processHeader")
-    public String addReceiptHeader(@Valid RequestHeader req, BindingResult bindingResult, Model model) throws ParseException {
+	@PostMapping("process")
+    public String processTransaction(@Valid RequestClass request, BindingResult bindingResult, Model model) throws ParseException {
 
         if (bindingResult.hasErrors()) {
             return "rh";
-        }
+        }        
+
+        rhSvc.processHeader(request);
         
-        LocalDateTime receiptDate = req.getDate();
-        String storeName = req.getName();
-        String street = req.getStreet();
-        String city = req.getCity();
-        String zipCode = req.getCode();
-        String state = req.getState();
-        String country = req.getCountry();
-    	
-        //validate all req fields
-        if (null != req) {
-        	if (null == receiptDate || null == storeName || null == street || null == city || null == zipCode || null == state || null == country) {
-        		//gg error
-        		return "rh";
-        	}
-        }
-        
-        
-        
-        
-        rhSvc.processHeader(receiptDate, storeName, street, city, zipCode, state, country);
-        
-        
-//        ReceiptHeader r = new ReceiptHeader();
-//        r.setDate(req.getDate());
-//        r.setStoreId(123);
-//        r.setAmount(new BigDecimal(123));
-//        r.setPaymentType("cingcai");
-//        r.setCreatedDate(LocalDateTime.now());
-//        r.setLastModDate(LocalDateTime.now());
-//        
-//
-//        
-//        
-//        
-//        
-//        rhRepo.save(r);
-        
-        
-        //1) Need to really take date from UI
-        
+        rdSvc.processDetail(request);
         
 //		model.addAttribute("isInsert", true);
 //        return "redirect:/results";
@@ -94,18 +57,18 @@ public class ReceiptHeaderController {
         return "/receipt/header";
     }
     
-	@PostMapping("processDetail")
-    public String addReceiptDetail(@Valid RequestDetail detail, BindingResult bindingResult, Model model) throws ParseException {
-
-        if (bindingResult.hasErrors() || null == detail) {
-            return "rh";
-        }   
-
-        rdSvc.processDetail(detail);
-        
-//        return "/receipt/detail";
-        return this.simpleDetail(model);
-    }
+//	@PostMapping("processDetail")
+//    public String addReceiptDetail(@Valid RequestDetail detail, BindingResult bindingResult, Model model) throws ParseException {
+//
+//        if (bindingResult.hasErrors() || null == detail) {
+//            return "rh";
+//        }   
+//
+//        rdSvc.processDetail(detail);
+//        
+////        return "/receipt/detail";
+//        return this.simpleDetail(model);
+//    }
 	
 	
 	

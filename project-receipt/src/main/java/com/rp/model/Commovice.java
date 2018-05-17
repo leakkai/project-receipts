@@ -22,7 +22,7 @@ public class Commovice implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int commoviceId;
+	private Integer commoviceId;
 
 	private String brand;
 
@@ -45,11 +45,11 @@ public class Commovice implements Serializable {
 	public Commovice() {
 	}
 
-	public int getCommoviceId() {
+	public Integer getCommoviceId() {
 		return this.commoviceId;
 	}
 
-	public void setCommoviceId(int commoviceId) {
+	public void setCommoviceId(Integer commoviceId) {
 		this.commoviceId = commoviceId;
 	}
 

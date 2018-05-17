@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rp.model.ReceiptDetail;
+import com.rp.model.RequestClass;
 import com.rp.model.RequestDetail;
 import com.rp.repository.CommoviceRepo;
 import com.rp.repository.ReceiptDetailRepo;
@@ -16,8 +17,8 @@ import com.rp.repository.ReceiptDetailRepo;
 @Service
 public class ReceiptDetailSvc {
 		
-//	@Autowired
-//	private StoreSvc stSvc;
+	@Autowired
+	private CommoviceSvc cmSvc;
 //	
 //	@Autowired
 //	private AddressSvc addSvc;
@@ -108,7 +109,7 @@ public class ReceiptDetailSvc {
 		}
 	}*/
 	
-	public void processDetail(RequestDetail detail) {
+	public void processDetail(RequestClass detail) {
 		
 		
         List<String> nameList = detail.getName();
@@ -128,14 +129,16 @@ public class ReceiptDetailSvc {
         LocalDateTime current = LocalDateTime.now();
         
         for (int i = 0; i < rowNum; i++) {
-        	ReceiptDetail newRD = new ReceiptDetail();
         	
-        	Integer comId = cmRepo.getIdByName(nameList.get(i));
+        	String name = nameList.get(i);
+        	
+        	Integer comId = cmRepo.getIdByName(name);
         	
         	if (null == comId) {
-        		//item not found, need to create
-        		comId = 99;
+        		comId = cmSvc.create(name);
         	}
+        	
+        	ReceiptDetail newRD = new ReceiptDetail();
         	newRD.setCommoviceId(comId);
         	newRD.setCreatedDate(current);
         	newRD.setLastModDate(current);
