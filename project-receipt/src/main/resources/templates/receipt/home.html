@@ -64,22 +64,21 @@
 				<div class="field">
                     <label class="label">Date</label>
                     <div class="control">
-                        <input class="input date" type="text" name="date" placeholder="yyyy-MM-dd HH:mm" th:field="*{date}"/>
+                        <input class="input date" type="text" name="date" required="required" placeholder="yyyy-MM-dd HH:mm" th:field="*{date}"/>
                     </div>
                 </div>
-
 
                 <div class="field">
                     <label class="label">Store Name</label>
                     <div class="control">
-                        <input class="input" name="name" type="text" th:field="*{storeName}" placeholder="NamaName"/>
+                        <input class="input" name="name" type="text" required="required" placeholder="NamaName" th:field="*{storeName}"/>
                     </div>
                 </div>
 
                 <div class="field">
                     <label class="label">Street Address</label>
                     <div class="control">
-                        <input class="input" name="street" type="text" th:field="*{street}" placeholder="42S, University Pl, Apt 4"/>
+                        <input class="input" name="street" type="text" required="required" placeholder="42S, University Pl, Apt 4" th:field="*{street}" />
                     </div>
                 </div>
 
@@ -87,25 +86,25 @@
                     
 					<div class="control is-expanded">
 						<label class="label">City</label>
-                       	<input class="input" name="city" type="text" th:field="*{city}" placeholder="Stillwater"/>
+                       	<input class="input" name="city" type="text" required="required" placeholder="Stillwater" th:field="*{city}" />
                    	</div>
                    	
                     
                     <div class="control">
                     	<label class="label">Zip Code</label>
-                        <input class="input" name="code" type="text" th:field="*{code}" placeholder="74075"/>
+                        <input class="input" name="code" type="text" required="required" placeholder="74075" th:field="*{code}" />
                     </div>
                     
                    
                     <div class="control is-expanded">
                      	<label class="label">State</label>
-                        <input class="input" name="state" type="text" th:field="*{state}" placeholder="Oklahoma"/>
+                        <input class="input" name="state" type="text" required="required" placeholder="Oklahoma" th:field="*{state}" />
                     </div>
                     
                     
                     <div class="control">
                     	<label class="label">Country</label>
-                        <input class="input" name="country" type="text" th:field="*{country}" placeholder="US"/>
+                        <input class="input" name="country" type="text" required="required" placeholder="US" th:field="*{country}"/>
                     </div>
                 </div>
 				
