@@ -68,3 +68,33 @@ section{
 .fa-usd:active {
 	color: #2fb73d;
 }
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  margin: 0; 
+}
+
+#tipCell {
+	width: 10%;
+}
+
+#tips {
+	border: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	padding-left: 0;
+}
+
+#tips:hover {
+	box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);
+	border: 1px solid transparent;
+	border-color: #dbdbdb;
+	-webkit-box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);
+}
+
+#tips:focus,
+#tips:active {
+	box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
+	border-color: #3273dc;
+	-webkit-box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
+}

@@ -41,6 +41,8 @@ public class Commovice implements Serializable {
 	private String subCategory;
 	
 	private int storeId;
+	
+	private String type;
 
 	public Commovice() {
 	}
@@ -123,6 +125,15 @@ public class Commovice implements Serializable {
 
 	public void setStoreId(int storeId) {
 		this.storeId = storeId;
+	}
+
+	//commodity or service
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

@@ -61,6 +61,22 @@ $('.uPrice').on('focusout', function() {
 	getGrandTotal();
 });
 
+$('#taxText').on('focusout', function() {
+	
+	var editedTax = $('#taxText').text();
+	
+	if (editedTax == "") {
+		return;
+	}
+	
+	tax = parseFloat($('#taxText').text(), 10);
+	
+	$('#taxVal').val(tax);
+	
+	getGrandTotal();
+});
+
+
 $('.taxBox').click(function () {
 	
 	var tempPrice = $(this).parent().prev().children('.price').text();

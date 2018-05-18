@@ -49,6 +49,8 @@ public class RequestClass implements Serializable {
 	private BigDecimal tips = new BigDecimal(0);
 	
 	private BigDecimal grandTotal;
+	
+	private String paymentType;
 
 	public RequestClass() {
 	}
@@ -187,5 +189,13 @@ public class RequestClass implements Serializable {
 
 	public void setDummyTax(boolean dummyTax) {
 		this.dummyTax = dummyTax;
+	}
+
+	public String getPaymentType() {
+		return paymentType;
+	}
+
+	public void setPaymentType(String paymentType) {
+		this.paymentType = paymentType;
 	}
 }
