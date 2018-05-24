@@ -36,4 +36,8 @@ public class AddressSvc {
 	public List<Address> findExactAddress(String street, String city, String postalCode, String state, String country) {
 		return addRepo.findExact(country, state, postalCode, city, street);
 	}
+	
+	public List<Address> findByStore(String name) {
+		return addRepo.findByStore(name);		
+	}
 }

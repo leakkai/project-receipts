@@ -1,6 +1,7 @@
 package com.rp.controller;
 
 import java.text.ParseException;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -11,7 +12,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.rp.model.Address;
 import com.rp.model.RequestClass;
 
 @Controller    // This means that this class is a Controller
@@ -24,6 +27,9 @@ public class ReceiptHeaderController {
 	
 	@Autowired
 	ReceiptDetailSvc rdSvc;
+	
+	@Autowired
+	AddressSvc addSvc;
 	
     @GetMapping("")
     public String simpleView(Model model) {
@@ -58,6 +64,32 @@ public class ReceiptHeaderController {
 //        return "forward:/results";
 //        return "results";
         return this.simpleView(model);
+    }
+	
+	
+	@PostMapping("getAddress")
+    public @ResponseBody RequestClass getAddress(@Valid RequestClass request, BindingResult bindingResult, Model model) throws ParseException {
+
+        if (bindingResult.hasErrors()) {
+//            return "rh";
+        }        
+
+        String name = request.getStoreName();
+        
+        if (null == name) {
+//        	return "rh";
+        }
+        
+        List<Address> storeAddress = addSvc.findByStore(name);
+        
+        if (storeAddress.isEmpty()) {
+        	//error creating or smtg
+        }
+        
+        request.setCity(storeAddress.get(0).getCity());
+
+//        model.addAttribute("request", request);
+        return request;
     }
     
 //	@PostMapping("processDetail")

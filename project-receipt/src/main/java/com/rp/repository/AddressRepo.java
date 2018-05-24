@@ -21,4 +21,8 @@ public interface AddressRepo extends CrudRepository<Address, Long> {
 			+ "a.city = :city and lower(a.address1) like lower(concat('%', :add1, '%'))")
 	List<Address> findExact(@Param("country") String country, @Param("state") String state, @Param("code") String postalCode,
 							@Param("city") String city, @Param("add1") String address1);
+	
+	@Query("select a from Address a, Store s where a.addressId = s.addressId and "
+			+ "s.storeName = :name")
+	List<Address> findByStore(@Param("name") String name);
 }

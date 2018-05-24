@@ -196,3 +196,34 @@ $('#toTable').click(function(e) {
     // animated top scrolling
     $('body, html').animate({scrollTop: pos});
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$('#testing').click(function () {
+	
+	var storeName = $('[name=storeName]').val();
+	
+	if (storeName == null || storeName == "") {
+		return;
+	}
+	
+	$.post("getAddress",
+    {
+      storeName: storeName
+    },
+    function(data,status){
+        //Just set to variable as usual
+    	//$('[name=city]').val(data.city);
+    });
+});
