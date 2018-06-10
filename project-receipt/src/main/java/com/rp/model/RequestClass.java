@@ -51,6 +51,8 @@ public class RequestClass implements Serializable {
 	private BigDecimal grandTotal;
 	
 	private String paymentType;
+	
+	private String addresses;
 
 	public RequestClass() {
 	}
@@ -197,5 +199,13 @@ public class RequestClass implements Serializable {
 
 	public void setPaymentType(String paymentType) {
 		this.paymentType = paymentType;
+	}
+
+	public String getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(String addresses) {
+		this.addresses = addresses;
 	}
 }

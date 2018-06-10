@@ -59,7 +59,7 @@
 	
     <section>	
         <div class="container">        
-            <form class="form" th:action="@{/receipt/process}" th:object="${request}" action="" method="POST">
+            <form class="form" id="headerForm" th:action="@{/receipt/process}" th:object="${request}" action="" method="POST">
             
             
           <!--   <div class="tile is-ancestor">
@@ -105,10 +105,10 @@
 				    	<div class="field is-narrow">
 				      		<div class="control">
 				        		<div class="select is-fullwidth">
-				          			<select>
-				            			<option>20, Jalan 1, Sungai Dua, Pisang, US</option>
-				            			<option>21, Jalan 1, Sungai Dua, Pisang, US</option>
-				            			<option>22, Jalan 1, Sungai Dua, Pisang, US</option>
+				          			<select form="headerForm" th:field="*{addresses}">
+				            			<option value="20, Jalan 1, Sungai Dua, Pisang, US">20, Jalan 1, Sungai Dua, Pisang, US</option>
+				            			<option value="21, Jalan 1, Sungai Dua, Pisang, US">21, Jalan 1, Sungai Dua, Pisang, US</option>
+				            			<option value="22, Jalan 1, Sungai Dua, Pisang, US">22, Jalan 1, Sungai Dua, Pisang, US</option>
 				          			</select>
 				        		</div>
 				      		</div>
@@ -124,10 +124,10 @@
 				 	<div class="field is-narrow">
 				      	<div class="control">
 				        	<div class="select is-fullwidth">
-			         			<select>
-				           			<option>Discover</option>
-				           			<option>Chase bank</option>
-				           			<option>Chase credit</option>
+			         			<select form="headerForm" th:field="*{paymentType}">
+				           			<option value="Discover">Discover</option>
+				           			<option value="Chase Bank">Chase bank</option>
+				           			<option value="Chase Credit">Chase credit</option>
 			         			</select>
 				        	</div>
 				      	</div>

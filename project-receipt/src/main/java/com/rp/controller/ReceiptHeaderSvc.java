@@ -38,6 +38,7 @@ public class ReceiptHeaderSvc {
 	        String zipCode = header.getCode();
 	        String state = header.getState();
 	        String country = header.getCountry();
+	        String paymentType = header.getPaymentType();
 	        
 	        BigDecimal total = header.getTotal();
 	        BigDecimal tax = header.getTotalTax();
@@ -111,6 +112,7 @@ public class ReceiptHeaderSvc {
 				tips = new BigDecimal(0);
 			}
 			
+				
 			ReceiptHeader newRH = new ReceiptHeader();
 			LocalDateTime current = LocalDateTime.now();
 			
@@ -119,7 +121,7 @@ public class ReceiptHeaderSvc {
 			newRH.setGrandTotal(grandTotal);
 			newRH.setGrandTax(tax);
 			newRH.setTips(tips);
-			newRH.setPaymentType("cingcai");
+			newRH.setPaymentType(paymentType);
 			newRH.setStoreId(storeId);
 			newRH.setCreatedDate(current);
 			newRH.setLastModDate(current);
