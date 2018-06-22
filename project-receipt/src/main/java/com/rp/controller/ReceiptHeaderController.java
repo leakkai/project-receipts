@@ -86,7 +86,10 @@ public class ReceiptHeaderController {
         	//error creating or smtg
         }
         
-        request.setCity(storeAddress.get(0).getCity());
+        List<String> addressDummy = addSvc.convertToTextArray(storeAddress);
+        
+        request.setAddressList(storeAddress);
+        request.setAddressDummyText(addressDummy);
 
 //        model.addAttribute("request", request);
         return request;

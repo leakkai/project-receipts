@@ -210,7 +210,20 @@ $('#toTable').click(function(e) {
 
 
 
-$('#testing').click(function () {
+$('#addAddress').click(toggleModalClasses);
+
+$('#closeAddress').click(toggleModalClasses);
+
+$('.modal-background').click(toggleModalClasses);
+
+function toggleModalClasses(event) {
+    var modalId = event.currentTarget.dataset.modalId;
+    var modal = $(modalId);
+    modal.toggleClass('is-active');
+    $('html').toggleClass('is-clipped');
+};
+
+$('#inputStoreName').on('focusout', function() {
 	
 	var storeName = $('[name=storeName]').val();
 	
@@ -218,12 +231,19 @@ $('#testing').click(function () {
 		return;
 	}
 	
+	$('[name=addressDummyText]').find('option').remove();
+	
 	$.post("getAddress",
     {
       storeName: storeName
     },
-    function(data,status){
+    function(data){
         //Just set to variable as usual
-    	//$('[name=city]').val(data.city);
+    	var add = data.addressList;
+    	$.each(add, function(key, value) {
+    		$('[name=addressDummyText]')
+    	     	.append($('<option>', { value : add[key].addressId })
+    	        .text( data.addressDummyText[key] ));
+    	});
     });
 });

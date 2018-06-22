@@ -98,3 +98,8 @@ input[type="number"] {
 	border-color: #3273dc;
 	-webkit-box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
 }
+
+.modal-frame {
+	
+	height: 500;
+}

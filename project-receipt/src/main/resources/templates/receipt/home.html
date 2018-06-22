@@ -57,7 +57,51 @@
 	  	</div>
 	</div>
 	
-    <section>	
+    <section>
+    	<div id="modal" class="modal">
+			<div class="modal-background" data-modal-id="#modal"></div>
+ 			<div class="modal-content">
+ 				<form class="form" th:action="@{/receipt/processHeader}"  action="" method="POST">
+	
+	                <div class="field">
+	                    <label class="label">Street Address</label>
+	                    <div class="control">
+	                        <input class="input" name="street" type="text" placeholder="e.g 42S, University Pl, Apt 4"/>
+	                    </div>
+	                </div>
+	
+	                <div class="field is-grouped">
+	                    <div class="control">
+	                        <label class="label">City</label>
+	                        <input class="input" name="city" type="text"  placeholder="e.g Stillwater"/>
+	                    </div>
+	                    <div class="control">
+	                        <label class="label">Zip Code</label>
+	                        <input class="input" name="code" type="text"  placeholder="e.g 74075"/>
+	                    </div>
+	                    
+	                </div>
+	                
+	                <div class="field is-grouped">
+						<div class="control">
+	                        <label class="label">State</label>
+	                        <input class="input" name="state" type="text"  placeholder="e.g Oklahoma"/>
+	                    </div>
+	                    <div class="control">
+	                        <label class="label">Country</label>
+	                        <input class="input" name="country" type="text"  placeholder="e.g US"/>
+	                    </div>
+					</div>
+					
+	                <div class="control">
+	                    <button class="button is-primary" th:value="#{form.submit}">Submit</button>
+	                </div>
+            	</form>
+   				
+ 			</div>
+ 			<button class="modal-close is-large" id="closeAddress" data-modal-id="#modal" aria-label="close"></button>
+		</div>
+		
         <div class="container">        
             <form class="form" id="headerForm" th:action="@{/receipt/process}" th:object="${request}" action="" method="POST">
             
@@ -91,7 +135,7 @@
                     <div class="field-body">
                     	<div class="field">
 		                    <div class="control is-expanded">
-		                        <input class="input" name="namez" type="text" required="required" placeholder="NamaName" th:field="*{storeName}"/>
+		                        <input class="input" id="inputStoreName" type="text" required="required" placeholder="NamaName" th:field="*{storeName}"/>
 		                    </div>
 	                    </div>
 	                </div>
@@ -102,21 +146,22 @@
 				    	<label class="label">Address</label>
 				  	</div>
 				  	<div class="field-body">
-				    	<div class="field is-narrow">
-				      		<div class="control">
+				    	<div class="field has-addons">
+				      		<div class="control is-expanded">
 				        		<div class="select is-fullwidth">
-				          			<select form="headerForm" th:field="*{addresses}">
-				            			<option value="20, Jalan 1, Sungai Dua, Pisang, US">20, Jalan 1, Sungai Dua, Pisang, US</option>
-				            			<option value="21, Jalan 1, Sungai Dua, Pisang, US">21, Jalan 1, Sungai Dua, Pisang, US</option>
-				            			<option value="22, Jalan 1, Sungai Dua, Pisang, US">22, Jalan 1, Sungai Dua, Pisang, US</option>
+				          			<select form="headerForm" th:field="*{addressDummyText}">
+				            			
 				          			</select>
 				        		</div>
 				      		</div>
+				      		<div class="control">
+			    				<a class="button" id="addAddress" data-modal-id="#modal">Add</a>
+			    			</div>
 			    		</div>
 					</div>
-					<a class="button" id="testing">click me</a>
+					
 				</div>
-                
+	
                 <div class="field is-horizontal is-grouped">
 					<div class="field-label is-normal">
 				    	<label class="label">Payment type</label>

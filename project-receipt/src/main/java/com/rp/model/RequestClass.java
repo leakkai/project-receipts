@@ -52,7 +52,9 @@ public class RequestClass implements Serializable {
 	
 	private String paymentType;
 	
-	private String addresses;
+	private List<String> addressDummyText;
+	
+	private List<Address> addressList; 
 
 	public RequestClass() {
 	}
@@ -201,11 +203,19 @@ public class RequestClass implements Serializable {
 		this.paymentType = paymentType;
 	}
 
-	public String getAddresses() {
-		return addresses;
+	public List<String> getAddressDummyText() {
+		return addressDummyText;
 	}
 
-	public void setAddresses(String addresses) {
-		this.addresses = addresses;
+	public void setAddressDummyText(List<String> addressDummyText) {
+		this.addressDummyText = addressDummyText;
+	}
+
+	public List<Address> getAddressList() {
+		return addressList;
+	}
+
+	public void setAddressList(List<Address> addressList) {
+		this.addressList = addressList;
 	}
 }
