@@ -16,6 +16,11 @@ var total = 0.00;
 var tax = 0.00;
 var tips = 0.00;
 
+if ($('#addAddress').is('[disabled=disabled]')) {
+	
+}
+
+
 $('.table-add').click(function () {
   var $clone = $TABLE.find('tr.hide').clone(true).removeClass('hide table-line').addClass('control');
   $TABLE.find('table').append($clone);
@@ -197,20 +202,10 @@ $('#toTable').click(function(e) {
     $('body, html').animate({scrollTop: pos});
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-$('#addAddress').click(toggleModalClasses);
+$('#addAddress').click(function(e) {
+	resetModal();
+	toggleModalClasses(e);
+});
 
 $('#closeAddress').click(toggleModalClasses);
 
@@ -223,27 +218,118 @@ function toggleModalClasses(event) {
     $('html').toggleClass('is-clipped');
 };
 
-$('#inputStoreName').on('focusout', function() {
+$('#storeName').on('focusout', function() {
 	
 	var storeName = $('[name=storeName]').val();
 	
 	if (storeName == null || storeName == "") {
+		$('#addAddress').attr('disabled', 'disabled');
 		return;
 	}
 	
+	retrieveAddress(storeName);
+	
+	$('#addAddress').removeAttr('disabled');
+});
+
+function retrieveAddress(storeName) {
 	$('[name=addressDummyText]').find('option').remove();
 	
-	$.post("getAddress",
-    {
-      storeName: storeName
-    },
-    function(data){
-        //Just set to variable as usual
-    	var add = data.addressList;
-    	$.each(add, function(key, value) {
-    		$('[name=addressDummyText]')
-    	     	.append($('<option>', { value : add[key].addressId })
-    	        .text( data.addressDummyText[key] ));
-    	});
-    });
+	$.get("getAddress",
+	    {
+	      storeName: storeName
+	    },
+	    function(data){
+	    	var add = data.addressList;
+	    	$.each(add, function(key, value) {
+	    		$('[name=addressDummyText]')
+	    	     	.append($('<option>', { value : add[key].addressId })
+	    	        .text( data.addressDummyText[key] ));
+	    	});
+	    });
+}
+
+$('#addressCreateButton').click(function(e) {
+	 
+	var $myForm = $('#testForm');
+	
+	if(! $myForm[0].checkValidity()) {
+		  // If the form is invalid, submit it. The form won't actually submit;
+		  // this will just cause the browser to display the native HTML5 error messages.
+		$('<input type="submit">').hide().appendTo($myForm).click().remove();
+		return;
+	}
+	
+	$('#addressCreateButton').addClass('is-loading');
+	
+	e.preventDefault();
+	
+	var req = {
+			"street": $('#address1').val(),
+			"city": $('#city').val(),
+			"zip": $('#postalCode').val(),
+			"state": $('#state').val(),
+			"country": $('#country').val(),
+			"storeName": $('#storeName').val()
+	}
+
+	var tmp = serverPost(req, "addAddress");
+	
+	tmp.done(function(data) {
+		retrieveAddress($('#storeName').val());
+		
+		$('#addressCreateButton').removeClass('is-loading').addClass('is-outlined').text('Done').attr('disabled', 'disabled');
+	});
 });
+
+function serverPost(req, url) {
+
+	return $.ajax({
+	    url: url,
+	    dataType: 'json',
+	    type: 'post',
+	    contentType: 'application/json',
+	    data: JSON.stringify( req ),
+	    processData: false,
+	    success: function( data ){
+	    	if (data.status === "success") {
+//	    		alert(data.id);
+	    	}
+	    	else if (data.status === "empty field(s)") {
+	    		alert("All fields must not be empty");
+	    	}
+	    	else if (data.status === "address fail") {
+	    		alert("Address creation fail :(");
+	    	}
+	    },
+	    error: function( jqXhr, textStatus, errorThrown ){
+	    	var msg = '';
+	        if (jqXhr.status === 0) {
+	            msg = 'Not connect.\n Verify Network.';
+	        } else if (jqXhr.status == 404) {
+	            msg = 'Requested page not found. [404]';
+	        } else if (jqXhr.status == 500) {
+	            msg = 'Internal Server Error [500].';
+	        } else if (errorThrown === 'parsererror') {
+	            msg = 'Requested JSON parse failed.';
+	        } else if (errorThrown === 'timeout') {
+	            msg = 'Time out error.';
+	        } else if (errorThrown === 'abort') {
+	            msg = 'Ajax request aborted.';
+	        } else {
+	            msg = 'Uncaught Error.\n' + jqXhr.responseText;
+	        }
+	        alert(msg);
+	    }
+	});
+}
+
+function resetModal() {
+	$('#address1').val("");
+	$('#city').val("");
+	$('#postalCode').val("");
+	$('#state').val("");
+	$('#country').val("");
+	
+	$('#addressCreateButton').removeClass('is-loading is-outlined').text('Create').removeAttr('disabled');
+}

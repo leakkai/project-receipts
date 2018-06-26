@@ -61,60 +61,48 @@
     	<div id="modal" class="modal">
 			<div class="modal-background" data-modal-id="#modal"></div>
  			<div class="modal-content">
- 				<form class="form" th:action="@{/receipt/processHeader}"  action="" method="POST">
-	
-	                <div class="field">
-	                    <label class="label">Street Address</label>
-	                    <div class="control">
-	                        <input class="input" name="street" type="text" placeholder="e.g 42S, University Pl, Apt 4"/>
-	                    </div>
+ 				<form id="testForm">
+					<div class="box" >
+		                <div class="field">
+		                    <label class="label">Street Address</label>
+		                    <div class="control">
+		                        <input class="input" id="address1" type="text" required="required" placeholder="13701 Midway Rd #120"/>
+		                    </div>
+		                </div>
+		
+		                <div class="field is-grouped">
+		                    <div class="control">
+		                        <label class="label">City</label>
+		                        <input class="input" id="city" type="text" required="required" placeholder="Farmers Branch"/>
+		                    </div>
+		                    <div class="control">
+		                        <label class="label">Zip Code</label>
+		                        <input class="input" id="postalCode" type="text" required="required" placeholder="75244"/>
+		                    </div>
+		                </div>
+		                
+		                <div class="field is-grouped">
+							<div class="control">
+		                        <label class="label">State</label>
+		                        <input class="input" id="state" type="text" required="required" placeholder="Texas"/>
+		                    </div>
+		                    <div class="control">
+		                        <label class="label">Country</label>
+		                        <input class="input" id="country" type="text" required="required" placeholder="US"/>
+		                    </div>
+						</div>
+						
+		                <div class="control">
+		                    <button class="button is-primary" id="addressCreateButton">Create</button>
+		                </div>
 	                </div>
-	
-	                <div class="field is-grouped">
-	                    <div class="control">
-	                        <label class="label">City</label>
-	                        <input class="input" name="city" type="text"  placeholder="e.g Stillwater"/>
-	                    </div>
-	                    <div class="control">
-	                        <label class="label">Zip Code</label>
-	                        <input class="input" name="code" type="text"  placeholder="e.g 74075"/>
-	                    </div>
-	                    
-	                </div>
-	                
-	                <div class="field is-grouped">
-						<div class="control">
-	                        <label class="label">State</label>
-	                        <input class="input" name="state" type="text"  placeholder="e.g Oklahoma"/>
-	                    </div>
-	                    <div class="control">
-	                        <label class="label">Country</label>
-	                        <input class="input" name="country" type="text"  placeholder="e.g US"/>
-	                    </div>
-					</div>
-					
-	                <div class="control">
-	                    <button class="button is-primary" th:value="#{form.submit}">Submit</button>
-	                </div>
-            	</form>
-   				
+                </form>
  			</div>
  			<button class="modal-close is-large" id="closeAddress" data-modal-id="#modal" aria-label="close"></button>
 		</div>
 		
         <div class="container">        
             <form class="form" id="headerForm" th:action="@{/receipt/process}" th:object="${request}" action="" method="POST">
-            
-            
-          <!--   <div class="tile is-ancestor">
-            	
-            
-            
-            </div> -->
-            
-            
-            
-            
 				<div class="field is-horizontal">
 					<div class="field-label">
 	                    <label class="label">Date</label>
@@ -135,7 +123,7 @@
                     <div class="field-body">
                     	<div class="field">
 		                    <div class="control is-expanded">
-		                        <input class="input" id="inputStoreName" type="text" required="required" placeholder="NamaName" th:field="*{storeName}"/>
+		                        <input class="input" type="text" required="required" placeholder="Jimmy Johns" th:field="*{storeName}"/>
 		                    </div>
 	                    </div>
 	                </div>
@@ -155,7 +143,7 @@
 				        		</div>
 				      		</div>
 				      		<div class="control">
-			    				<a class="button" id="addAddress" data-modal-id="#modal">Add</a>
+			    				<a class="button" id="addAddress" data-modal-id="#modal" disabled="disabled">Add</a>
 			    			</div>
 			    		</div>
 					</div>
@@ -192,50 +180,8 @@
 			        		</div>
 			      		</div>
 		    		</div>
-				</div>
-                
-                
-               <!--  <div>
-	                
-	
-	                <div class="field">
-	                    <label class="label">Street Address</label>
-	                    <div class="control">
-	                        <input class="input" name="street" type="text" required="required" placeholder="42S, University Pl, Apt 4" th:field="*{street}" />
-	                    </div>
-	                </div>
-	
-	                <div class="field is-grouped">
-	                    
-						<div class="control is-expanded">
-							<label class="label">City</label>
-	                       	<input class="input" name="city" type="text" required="required" placeholder="Stillwater" th:field="*{city}" />
-	                   	</div>
-	                   	
-	                    
-	                    <div class="control">
-	                    	<label class="label">Zip Code</label>
-	                        <input class="input" name="code" type="text" required="required" placeholder="74075" th:field="*{code}" />
-	                    </div>
-	                    
-	                   
-	                    <div class="control is-expanded">
-	                     	<label class="label">State</label>
-	                        <input class="input" name="state" type="text" required="required" placeholder="Oklahoma" th:field="*{state}" />
-	                    </div>
-	                    
-	                    
-	                    <div class="control">
-	                    	<label class="label">Country</label>
-	                        <input class="input" name="country" type="text" required="required" placeholder="US" th:field="*{country}"/>
-	                    </div>
-	                </div>
-				</div> -->
-				
-				
-				
-				
-				
+				</div>	
+
 				<div class="control has-text-centered is-expanded">
 					<a class="button is-primary" id="toTable">Detail</a>
 				</div>

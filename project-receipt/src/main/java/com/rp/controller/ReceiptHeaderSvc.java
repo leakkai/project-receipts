@@ -33,11 +33,6 @@ public class ReceiptHeaderSvc {
 			
 			LocalDateTime receiptDate = header.getDate();
 	        String storeName = header.getStoreName();
-	        String street = header.getStreet();
-	        String city = header.getCity();
-	        String zipCode = header.getCode();
-	        String state = header.getState();
-	        String country = header.getCountry();
 	        String paymentType = header.getPaymentType();
 	        
 	        BigDecimal total = header.getTotal();
@@ -45,62 +40,53 @@ public class ReceiptHeaderSvc {
 	        BigDecimal tips = header.getTips();
 	        BigDecimal grandTotal = header.getGrandTotal();
 	        
+	        int addId = 0;
+	        
+	        if (null!= header.getAddressDummyText() && !header.getAddressDummyText().isEmpty()) {
+	        	addId = Integer.parseInt(header.getAddressDummyText().get(0));
+	        }
+	        else {
+	        	//Address Id not sent?!
+	        	return -1;
+	        }
+	        
 			//find exact store & address
 			List<Store> storeList = stSvc.findByName(storeName);
 
-			List<Address> addList = addSvc.findExactAddress(street, city, zipCode, state, country);
+			List<Address> addList = addSvc.findById(addId);
 			
-			Address add = null;
-			
-			int storeId = 0;
+//			Address add = null;
 			
 			if (null != addList && addList.size() == 1) {
-				add = addList.get(0);
+//				add = addList.get(0);
 			}
 			else if (addList.size() > 1) {
 				//duplicate address error!!
+				return -1;
 			}
+
+			int storeId = 0;
 			
 			if (storeList != null && storeList.size() > 0) {			
-				//store profile exist, check if current address has any profile
-				boolean hasAdd = false;
-				int addId = 0;
-				
-				if (null == add) {
-					//create address for this store
-					addId = addSvc.createAddress(street, city, zipCode, state, country);
-				}
-				else {
-					addId = add.getAddressId();
-					for (Store eachStore : storeList) {
-						if (eachStore.getAddressId() == addId) {
-							//found
-							hasAdd = true;
-							storeId = eachStore.getStoreId();
-						}
+				//Get store id
+
+//				addId = add.getAddressId();
+				for (Store eachStore : storeList) {
+					if (eachStore.getAddressId() == addId) {
+						//found
+						storeId = eachStore.getStoreId();
+						break;
 					}
 				}
 				
-				if (!hasAdd) {
-					//Address profile exist, but not one store has it. Meaning "new store". Create a whole new store
-					storeId = stSvc.createStore(addId, storeName);
+				if (storeId == 0) {
+					//Error! Address not found for this store :(
+					return -1;
 				}
 			}
 			else {
-				//new store, usually mean new add
-				int addId = 0;
-				
-				if (null == add) {
-					//create address profile
-					addId = addSvc.createAddress(street, city, zipCode, state, country);
-				}
-				
-				if (addId == 0) {
-					//address creation GG
-				}
-				else {
-					storeId = stSvc.createStore(addId, storeName);	
-				}
+				//Error! Should have created after address creation
+				return -1;
 			}
 			
 			

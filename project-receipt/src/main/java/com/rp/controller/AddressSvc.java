@@ -34,6 +34,10 @@ public class AddressSvc {
 		return newAddress.getAddressId();
 	}
 	
+	public List<Address> findById(int id) {
+		return addRepo.findById(id);
+	}
+	
 	public List<Address> findExactAddress(String street, String city, String postalCode, String state, String country) {
 		return addRepo.findExact(country, state, postalCode, city, street);
 	}

@@ -20,16 +20,6 @@ public class RequestClass implements Serializable {
 
 	private String storeName;
 
-	private String street;
-
-	private String city;
-
-	private String code;
-	
-	private String state;
-	
-	private String country = "US";
-
 	private List<String> name;
 
 	private List<Integer> quantity;
@@ -54,7 +44,7 @@ public class RequestClass implements Serializable {
 	
 	private List<String> addressDummyText;
 	
-	private List<Address> addressList; 
+	private List<Address> addressList;
 
 	public RequestClass() {
 	}
@@ -73,46 +63,6 @@ public class RequestClass implements Serializable {
 
 	public void setStoreName(String storeName) {
 		this.storeName = storeName;
-	}
-
-	public String getStreet() {
-		return street;
-	}
-
-	public void setStreet(String street) {
-		this.street = street;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	public String getState() {
-		return state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
-	}
-
-	public String getCountry() {
-		return country;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
 	}
 	
 	public List<String> getName() {
