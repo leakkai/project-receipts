@@ -129,7 +129,7 @@ public class ReceiptDetailSvc {
         	
         	Integer comId = cmRepo.getIdByName(name);
         	
-        	if (null == comId) {
+        	if (null == comId || comId < 1) {
         		comId = cmSvc.create(name);
         	}
         	

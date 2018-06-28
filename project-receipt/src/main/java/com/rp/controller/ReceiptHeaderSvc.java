@@ -131,12 +131,13 @@ public class ReceiptHeaderSvc {
 	}
 	
 	@Transactional(rollbackFor = Exception.class)
-	public void processTransaction(@Valid RequestClass request) throws ParseException {     
+	public void processTransaction(@Valid RequestClass request) throws Exception {     
 
 		Integer headerId = this.processHeader(request);
 
-		if (null == headerId) {
+		if (null == headerId || headerId < 1) {
 			//error creating or smtg
+			throw new Exception("error creating header");
 		}
 		else {
 			rdSvc.processDetail(request, headerId);
