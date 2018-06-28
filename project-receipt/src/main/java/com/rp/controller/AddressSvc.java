@@ -1,18 +1,29 @@
 package com.rp.controller;
 
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import com.rp.exception.AddAddressException;
 import com.rp.model.Address;
+import com.rp.model.AddressReq;
+import com.rp.model.RequestClass;
 import com.rp.repository.AddressRepo;
 
 @Service
 public class AddressSvc {
 
+	@Autowired
+	private StoreSvc stoSvc;
+	
 	@Autowired
 	private AddressRepo addRepo;
 	
@@ -88,4 +99,64 @@ public class AddressSvc {
 		
 		return addressTextList;
 	}
+
+	@Transactional(rollbackFor = Exception.class)
+    public String addAddress(@RequestBody AddressReq request) throws Exception {
+
+		String add1 = request.getStreet();
+		String city = request.getCity();
+		String zip = request.getZip();
+		String sta = request.getState();
+		String cou = request.getCountry();
+		
+		String name = request.getStoreName();
+		
+		if (null == add1 || add1.isEmpty() ||
+				null == city || city.isEmpty() ||
+				null == zip || zip.isEmpty() ||
+				null == sta || sta.isEmpty() ||
+				null == cou || cou.isEmpty() ||
+				null == name || name.isEmpty()) {
+			return "{\"status\":\"empty field(s)\"}";
+		}
+		
+		int id = this.createAddress(add1, city, zip, sta, cou);
+		
+		if (id < 1) {
+//			throw new Exception("{\"status\":\"address fail\"}");
+			throw new AddAddressException("address fail");
+		}
+		
+		int stoId = stoSvc.createStore(id, name);
+		
+		if (stoId < 1) {
+			return "{\"status\":\"store fail\"}";
+		}
+		
+        return "{\"status\":\"success\", "
+        		+ "\"id\":" + stoId + "}";
+    }
+	
+	@Transactional(rollbackFor = Exception.class)
+    public RequestClass getAddress(@Valid RequestClass request) throws ParseException {   
+
+        String name = request.getStoreName();
+        
+        if (null == name) {
+//        	return "rh";
+        }
+        
+        List<Address> storeAddress = this.findByStore(name);
+        
+        if (storeAddress.isEmpty()) {
+        	//error creating or smtg
+        }
+        
+        List<String> addressDummy = this.convertToTextArray(storeAddress);
+        
+        request.setAddressList(storeAddress);
+        request.setAddressDummyText(addressDummy);
+
+        return request;
+    }
 }

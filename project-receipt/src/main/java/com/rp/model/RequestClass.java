@@ -13,7 +13,11 @@ import org.springframework.format.annotation.DateTimeFormat;
  * 
  */
 public class RequestClass implements Serializable {
-	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1045524282598892390L;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
 	private LocalDateTime date;

@@ -1,11 +1,15 @@
 package com.rp.controller;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.rp.model.Address;
 import com.rp.model.ReceiptHeader;
@@ -21,6 +25,9 @@ public class ReceiptHeaderSvc {
 	
 	@Autowired
 	private AddressSvc addSvc;
+	
+	@Autowired
+	private ReceiptDetailSvc rdSvc;
 	
 	@Autowired
 	private ReceiptHeaderRepo rhRepo;
@@ -121,5 +128,18 @@ public class ReceiptHeaderSvc {
 		}
 		
 		return headerId;
+	}
+	
+	@Transactional(rollbackFor = Exception.class)
+	public void processTransaction(@Valid RequestClass request) throws ParseException {     
+
+		Integer headerId = this.processHeader(request);
+
+		if (null == headerId) {
+			//error creating or smtg
+		}
+		else {
+			rdSvc.processDetail(request, headerId);
+		}
 	}
 }
