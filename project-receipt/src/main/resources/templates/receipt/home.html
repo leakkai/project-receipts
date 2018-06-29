@@ -6,10 +6,11 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     
-    <!-- CDN CSS  -->
+    <!-- General CSS  -->
     <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.1.4/flatpickr.min.css}"/>
     <link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/bulma.css}"/>
+    <link rel="stylesheet" th:href="@{/css/animate.css}"/>
 
 	<!-- Custom CSS  -->
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
@@ -56,8 +57,12 @@
 	    	</div>
 	  	</div>
 	</div>
-	
+	 
+       
     <section>
+    <div  id="success-foreground">
+    	testing
+    </div>
     	<div id="modal" class="modal">
 			<div class="modal-background" data-modal-id="#modal"></div>
  			<div class="modal-content">
@@ -296,12 +301,16 @@
 				</div>
 				
                 <div class="control has-text-centered">
-                    <button id="saveTransaction" class="button is-primary" th:value="#{form.submit}">Down down details</button>
+                    <button id="saveTransaction" class="button is-primary" th:value="#{form.submit}">Save</button>
                 </div>
             </form>
         </div>
+        
+      
     </section>
     
+    
+      
     <!-- Script  -->
     <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.1.4/flatpickr.min.js}"></script>
     <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js}"></script>
