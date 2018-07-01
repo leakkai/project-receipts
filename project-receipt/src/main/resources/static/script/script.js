@@ -16,10 +16,6 @@ var total = 0.00;
 var tax = 0.00;
 var tips = 0.00;
 
-if ($('#addAddress').is('[disabled=disabled]')) {
-	
-}
-
 
 $('.table-add').click(function () {
   var $clone = $TABLE.find('tr.hide').clone(true).removeClass('hide table-line').addClass('control');
@@ -168,7 +164,32 @@ function getGrandTotal() {
 }
 
 $('#saveTransaction').click(function () {
-	$TABLE.find('tr.hide').remove();
+	
+	var $hiddenRow = $TABLE.find('tr.hide');
+	$hiddenRow.remove();
+	
+	var $headerForm = $('#headerForm');
+	
+	if(! $headerForm[0].checkValidity()) {
+		
+		$TABLE.find('table').append($hiddenRow);
+		return;
+	}
+
+	$('#success-foreground').css("zIndex", 1);
+	$('#success-load').removeClass('hide').addClass('animated bounceInLeft');
+	setTimeout(function() {
+		$('#success-load').removeClass('fadeInLeft').addClass('fadeOut');
+		
+		setTimeout(function() {
+			$('#success-check').removeClass('hide').addClass('animated fadeIn');
+			setTimeout(function() {
+				$('#success-check').removeClass('fadeIn').addClass('bounceOutRight');
+				$('#success-foreground').css("zIndex", -1);
+			}, 500);
+		}, 500);
+		
+	}, 2000);
 });
 
 
@@ -203,6 +224,10 @@ $('#toTable').click(function(e) {
 });
 
 $('#addAddress').click(function(e) {
+	if ($('#addAddress').is('[disabled=disabled]')) {
+		return;
+	}
+	
 	resetModal();
 	toggleModalClasses(e);
 });
@@ -251,7 +276,7 @@ function retrieveAddress(storeName) {
 
 $('#addressCreateButton').click(function(e) {
 	 
-	var $myForm = $('#testForm');
+	var $myForm = $('#addressForm');
 	
 	if(! $myForm[0].checkValidity()) {
 		  // If the form is invalid, submit it. The form won't actually submit;
