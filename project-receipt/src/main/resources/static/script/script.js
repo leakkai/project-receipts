@@ -18,7 +18,7 @@ var tips = 0.00;
 
 
 $('.table-add').click(function () {
-  var $clone = $TABLE.find('tr.hide').clone(true).removeClass('hide table-line').addClass('control');
+  var $clone = $TABLE.find('tr.hide').clone(true).removeClass('hide').addClass('control');
   $TABLE.find('table').append($clone);
   
   var a = parseInt($('#srnos').text(), 10) + 1;
@@ -62,15 +62,15 @@ $('.uPrice').on('focusout', function() {
 	getGrandTotal();
 });
 
-$('#taxText').on('focusout', function() {
+$('#taxVal').on('focusout', function() {
 	
-	var editedTax = $('#taxText').text();
+	var editedTax = $('#taxVal').val();
 	
 	if (editedTax == "") {
 		return;
 	}
 	
-	tax = parseFloat($('#taxText').text(), 10);
+	tax = parseFloat($('#taxVal').val(), 10);
 	
 	$('#taxVal').val(tax);
 	
@@ -138,7 +138,7 @@ function setTax(aTax, isAdd) {
 	
 	tax = parseFloat($('#taxVal').val(), 10);
 	
-	$('#taxText').text(tax);
+	$('#taxVal').val(tax);
 	
 	return aTax;
 }
@@ -191,17 +191,6 @@ $('#saveTransaction').click(function () {
 		
 	}, 2000);
 });
-
-
-$('.table-add').click(function () {
-	  var $clone = $TABLE.find('tr.hide').clone(true).removeClass('hide table-line').addClass('control');
-	  $TABLE.find('table').append($clone);
-	  
-	  var a = parseInt($('#srnos').text(), 10) + 1;
-	  $('#srnos').text(a);
-	});
-
-
 
 $('#toTable').click(function(e) {
     // target element id
@@ -353,8 +342,8 @@ function resetModal() {
 	$('#address1').val("");
 	$('#city').val("");
 	$('#postalCode').val("");
-	$('#state').val("");
-	$('#country').val("");
+	$('#state').val("Texas");
+	$('#country').val("US");
 	
 	$('#addressCreateButton').removeClass('is-loading is-outlined').text('Create').removeAttr('disabled');
 }

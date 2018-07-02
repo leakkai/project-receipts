@@ -92,11 +92,11 @@
 		                <div class="field is-grouped">
 							<div class="control">
 		                        <label class="label">State</label>
-		                        <input class="input" id="state" type="text" required="required" placeholder="Texas"/>
+		                        <input class="input" id="state" type="text" required="required" value="Texas" placeholder="Texas"/>
 		                    </div>
 		                    <div class="control">
 		                        <label class="label">Country</label>
-		                        <input class="input" id="country" type="text" required="required" placeholder="US"/>
+		                        <input class="input" id="country" type="text" required="required" value="US" placeholder="US"/>
 		                    </div>
 						</div>
 						
@@ -114,7 +114,7 @@
 				<div class="field is-horizontal">
 					<div class="field-label">
 	                    <label class="label">Date</label>
-                    </div>
+                    </div>                
                     <div class="field-body">
                     	<div class="field">
 		                    <div class="control is-expanded">
@@ -204,9 +204,9 @@
 	            	<table class="table is-fullwidth">
 	            		<thead>
 							<tr>
-								<th>No.</th>
+								<th style="text-align:right">No.</th>
 						        <th>Name</th>
-						        <th>Qty</th>
+						        <th>Quantity</th>
 						        <th>Unit Price</th>
 						        <th>Price</th>
 						        <th>Tax</th>
@@ -279,7 +279,7 @@
 								<th></th>
 								<th></th>
 								<th style="text-align:right">Tax:</th>
-								<td><div id="taxText" contenteditable="true"></div><input id="taxVal" class="input" type="hidden" th:field="*{totalTax}"/></td>
+								<td><input id="taxVal" class="input" type="number" step="0.01" min="0" th:field="*{totalTax}"/></td>
 								<td></td>
 								<td></td>
 							</tr>

@@ -93,7 +93,34 @@ input[type="number"] {
 }
 
 #tips:focus,
-#tips:active {
+#tips:active,
+#tips.is-focused, 
+#tips.is-active {
+	border: 1px solid transparent;
+	box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
+	border-color: #3273dc;
+	-webkit-box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
+}
+
+#taxVal {
+	border: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	padding-left: 0;
+}
+
+#taxVal:hover {
+	box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);
+	border: 1px solid transparent;
+	border-color: #dbdbdb;
+	-webkit-box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);
+}
+
+#taxVal:focus,
+#taxVal:active,
+#taxVal.is-focused, 
+#taxVal.is-active {
+	border: 1px solid transparent;
 	box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
 	border-color: #3273dc;
 	-webkit-box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
