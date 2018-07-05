@@ -31,4 +31,22 @@ public class CommoviceSvc {
 		
 		return c.getCommoviceId();
 	}
+	
+	public Integer createWithTag(String name, String tag) {
+		Commovice c = new Commovice();
+		LocalDateTime current = LocalDateTime.now();
+		
+		c.setName(name);
+		c.setTag(tag);
+		c.setCreatedDate(current);
+		c.setLastModDate(current);
+		
+		cmRepo.save(c);
+		
+		if (null == c.getCommoviceId()) {
+			//some error for creating this commo
+		}
+		
+		return c.getCommoviceId();
+	}
 }

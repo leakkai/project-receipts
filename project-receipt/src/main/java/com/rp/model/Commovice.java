@@ -2,7 +2,6 @@ package com.rp.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,15 +17,14 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQuery(name="Commovice.findAll", query="SELECT c FROM Commovice c")
 public class Commovice implements Serializable {
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = -327219069358740687L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer commoviceId;
 
 	private String brand;
-
-	private String category;
 
 	private LocalDateTime createdDate;
 
@@ -38,7 +36,7 @@ public class Commovice implements Serializable {
 
 	private String name;
 
-	private String subCategory;
+	private String tag;
 	
 	private int storeId;
 	
@@ -61,14 +59,6 @@ public class Commovice implements Serializable {
 
 	public void setBrand(String brand) {
 		this.brand = brand;
-	}
-
-	public String getCategory() {
-		return this.category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
 	}
 
 	public LocalDateTime getCreatedDate() {
@@ -111,12 +101,12 @@ public class Commovice implements Serializable {
 		this.name = name;
 	}
 
-	public String getSubCategory() {
-		return this.subCategory;
+	public String getTag() {
+		return this.tag;
 	}
 
-	public void setSubCategory(String subCategory) {
-		this.subCategory = subCategory;
+	public void setTag(String tag) {
+		this.tag = tag;
 	}
 
 	public int getStoreId() {
@@ -135,5 +125,4 @@ public class Commovice implements Serializable {
 	public void setType(String type) {
 		this.type = type;
 	}
-
 }

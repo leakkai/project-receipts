@@ -173,3 +173,7 @@ input[type="number"] {
 	left: 46%; 
 	position: absolute;
 }
+
+.dropdown-menu {
+	width: 13rem;
+}

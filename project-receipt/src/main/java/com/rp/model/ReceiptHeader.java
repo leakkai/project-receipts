@@ -20,7 +20,8 @@ import javax.persistence.Table;
 @Table(name="receipt_header")
 @NamedQuery(name="ReceiptHeader.findAll", query="SELECT r FROM ReceiptHeader r")
 public class ReceiptHeader implements Serializable {
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = -8349476285693887650L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

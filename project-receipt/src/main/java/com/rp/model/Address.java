@@ -3,8 +3,10 @@ package com.rp.model;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import javax.persistence.*;
-import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 
 /**
@@ -13,7 +15,8 @@ import java.util.Date;
  */
 @Entity
 public class Address implements Serializable {
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = 7991672827853196585L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

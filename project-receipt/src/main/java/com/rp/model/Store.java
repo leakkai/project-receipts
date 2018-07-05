@@ -19,7 +19,8 @@ import javax.persistence.Table;
 @Table(name="store")
 @NamedQuery(name="Store.findAll", query="SELECT s FROM Store s")
 public class Store implements Serializable {
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = -166163658458446751L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

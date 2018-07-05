@@ -20,7 +20,8 @@ import javax.persistence.Table;
 @Table(name="receipt_detail")
 @NamedQuery(name="ReceiptDetail.findAll", query="SELECT r FROM ReceiptDetail r")
 public class ReceiptDetail implements Serializable {
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = -7172941397513381538L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -43,6 +44,8 @@ public class ReceiptDetail implements Serializable {
 	private int transactionId;
 
 	private BigDecimal unitPrice;
+	
+	private String category;
 
 	public ReceiptDetail() {
 	}
@@ -127,4 +130,11 @@ public class ReceiptDetail implements Serializable {
 		this.unitPrice = unitPrice;
 	}
 
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
 }

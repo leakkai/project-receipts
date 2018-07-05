@@ -14,9 +14,6 @@ import org.springframework.format.annotation.DateTimeFormat;
  */
 public class RequestClass implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1045524282598892390L;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
@@ -49,6 +46,10 @@ public class RequestClass implements Serializable {
 	private List<String> addressDummyText;
 	
 	private List<Address> addressList;
+	
+	private List<String> category;
+	
+	private List<String> tag;
 
 	public RequestClass() {
 	}
@@ -171,5 +172,21 @@ public class RequestClass implements Serializable {
 
 	public void setAddressList(List<Address> addressList) {
 		this.addressList = addressList;
+	}
+
+	public List<String> getCategory() {
+		return category;
+	}
+
+	public void setCategory(List<String> category) {
+		this.category = category;
+	}
+
+	public List<String> getTag() {
+		return tag;
+	}
+
+	public void setTag(List<String> tag) {
+		this.tag = tag;
 	}
 }

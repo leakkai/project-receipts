@@ -117,6 +117,9 @@ public class ReceiptDetailSvc {
         List<BigDecimal> upList = detail.getUnitPrice();
         List<BigDecimal> priceList = detail.getPrice();
         List<BigDecimal> taxList = detail.getTax();
+        List<String> category = detail.getCategory();
+        //Still considering if I want to add this everytime from user...an item cannot be change into another tag that easily...hmmm....
+        List<String> tag = detail.getTag();
         
         int rowNum = nameList.size();
         
@@ -127,10 +130,16 @@ public class ReceiptDetailSvc {
         	
         	String name = nameList.get(i);
         	
+        	//Some item might have duplicate name..need to have more accurate fetching method
         	Integer comId = cmRepo.getIdByName(name);
         	
         	if (null == comId || comId < 1) {
-        		comId = cmSvc.create(name);
+        		if (!tag.isEmpty() && null != tag.get(i)) {
+        			comId = cmSvc.createWithTag(name, tag.get(i));
+        		}
+        		else {
+        			comId = cmSvc.create(name);
+        		}
         	}
         	
         	ReceiptDetail newRD = new ReceiptDetail();
@@ -148,6 +157,10 @@ public class ReceiptDetailSvc {
         	}
         	else {
         		newRD.setTax(taxList.get(i));
+        	}
+        	
+        	if (!category.isEmpty() && null != category.get(i)) {
+        		newRD.setCategory(category.get(i));
         	}
         	
         	newRD.setUnitPrice(upList.get(i));

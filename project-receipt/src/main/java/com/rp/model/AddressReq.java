@@ -7,7 +7,8 @@ import java.io.Serializable;
  * 
  */
 public class AddressReq implements Serializable {
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = 1728044064948034881L;
 
 	private String storeName;
 

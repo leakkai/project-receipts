@@ -16,14 +16,38 @@ var total = 0.00;
 var tax = 0.00;
 var tips = 0.00;
 
+var count = 0;
+
 
 $('.table-add').click(function () {
-  var $clone = $TABLE.find('tr.hide').clone(true).removeClass('hide').addClass('control');
-  $TABLE.find('table').append($clone);
+//  var $clone = $TABLE.find('tr.hide').clone(true).removeClass('hide').addClass('control');
+//  $TABLE.find('table').append($clone);
+//  
+//  var a = parseInt($('#srnos').text(), 10) + 1;
+//  $('#srnos').text(a);
   
-  var a = parseInt($('#srnos').text(), 10) + 1;
-  $('#srnos').text(a);
+  
+//  var $clone = $TABLE.find('tr.control').clone(true);
+	var $clone = $TABLE.find('tr:eq(1)').clone(true);
+	resetData($clone);
+	$TABLE.find('table').append($clone);
+	count++;
 });
+
+function resetData($clone) {
+	var srNo = parseInt($clone.children('.sr-no').text(), 10) + 1;
+	$clone.children('.sr-no').text(srNo);
+	
+	$clone.find('#name').val('');
+	$clone.find('#quantity').val('');
+	$clone.find('#unitPrice').val('');
+	$clone.find('#price').val('');
+	$clone.find('.price').text('');
+	$clone.find('#tax').val('');
+	$clone.find('.taxBox').addClass('is-inverted');
+	
+	
+}
 
 $('.table-remove').click(function () {
 	var $row = $(this).parents('tr');
@@ -106,15 +130,16 @@ $('#tips').on('focusout', function() {
 
 function getTotal() {
 	
-	$('.control .price').each(function() {
-//		var tax = $(this).parent().next().children('.checkbox').prop('checked');
-		
-//		total += parseFloat($(this).text(), 10);
+	var tmptotal = 0;
+	var $details = $TABLE.find('tbody').children('.control');
+	$details.each(function() {
+		tmptotal += parseFloat($(this).find('#price').val(), 10);
 	});
-	total = round(total, 2);
+	tmptotal = round(tmptotal, 2);
+	total = tmptotal;
 	
-	$('#dummyTotal').text(total);
-	$('#total').val(total);
+	$('#dummyTotal').text(tmptotal);
+	$('#total').val(tmptotal);
 	
 	return;
 }
@@ -165,8 +190,8 @@ function getGrandTotal() {
 
 $('#saveTransaction').click(function () {
 	
-	var $hiddenRow = $TABLE.find('tr.hide');
-	$hiddenRow.remove();
+//	var $hiddenRow = $TABLE.find('tr.hide');
+//	$hiddenRow.remove();
 	
 	var $headerForm = $('#headerForm');
 	
@@ -347,3 +372,71 @@ function resetModal() {
 	
 	$('#addressCreateButton').removeClass('is-loading is-outlined').text('Create').removeAttr('disabled');
 }
+
+//$('.taxBox')
+$('.category-dropdown').mouseenter(function() {
+	$(this).children('.dropdown-menu').children('.dropdown-content').removeClass('hide');
+});
+
+$('.category-dropdown').mouseleave(function() {
+	$(this).children('.dropdown-menu').children('.dropdown-content').addClass('hide');
+});
+
+$('#categorySelection').on('focusout', function() {
+	var cat = $('#categorySelection').val();
+	
+	$('.ct-parent').find('#cat'+cat).click();
+});
+
+$('.categoryTag').click(function () {
+	$(this).parent().find('.tag').height('2em');
+	$(this).height('3em');
+
+	var value = $(this).attr('id');
+	
+	var $toBePop = $(this).parent().next().next();
+	
+	switch (value) {
+		case 'catF':
+			$(this).parent().children('input').val("F");
+			$('<a class="tag tagTag is-info" id="tagGro"> Grocery </a>').appendTo($toBePop);
+			$('<a class="tag tagTag is-info" id="tagMak"> Makan </a>').appendTo($toBePop);
+			$('<a class="tag tagTag is-info" id="tagSna"> Snack </a>').appendTo($toBePop);
+			break;
+			
+		case 'catA':
+			$(this).parent().children('input').val("A");
+			break;
+			
+		case 'catB':
+			$(this).parent().children('input').val("B");
+			break;
+			
+		case 'catQ':
+			$(this).parent().children('input').val("Q");
+			break;
+			
+		case 'catS':
+			$(this).parent().children('input').val("S");
+			break;
+	}
+});
+
+$('.ttParent').on("click", "a.tagTag", function() {
+	$(this).parent().find('.tagTag').height('2em');
+	$(this).height('3em');
+	
+	var value = $(this).attr('id');
+	
+	switch (value) {
+		case 'tagGro':
+			$(this).parent().children('input').val("groc");
+			break;
+		case 'tagMak':
+			$(this).parent().children('input').val("makan");
+			break;
+		case 'tagSna':
+			$(this).parent().children('input').val("snack");
+			break;
+	}
+});
