@@ -4,19 +4,19 @@ flatpickr(".date", {
 
 var $TABLE = $('#table');
 
-var isTabOut = false;
-$(window).keyup(function (e) {
-    var code = (e.keyCode ? e.keyCode : e.which);
-    if (code == 9) {        	
-    	isTabOut = true;
+/*$(window).keyup(function (e) {
+
+	var code = (e.keyCode ? e.keyCode : e.which);
+    if (code == 9 && $('.uPrice:focusout').length) {        	
+    	return true;
     }
-});
+});*/
 
 var total = 0.00;
 var tax = 0.00;
 var tips = 0.00;
 
-var count = 0;
+var count = 1;
 
 
 $('.table-add').click(function () {
@@ -29,14 +29,17 @@ $('.table-add').click(function () {
   
 //  var $clone = $TABLE.find('tr.control').clone(true);
 	var $clone = $TABLE.find('tr:eq(1)').clone(true);
+	count++;
 	resetData($clone);
 	$TABLE.find('table').append($clone);
-	count++;
+	
+	
+	$clone.find('#name').focus();
 });
 
 function resetData($clone) {
-	var srNo = parseInt($clone.children('.sr-no').text(), 10) + 1;
-	$clone.children('.sr-no').text(srNo);
+//	var srNo = parseInt($clone.children('.sr-no').text(), 10) + 1;
+	$clone.children('.sr-no').text(count);
 	
 	$clone.find('#name').val('');
 	$clone.find('#quantity').val('');
@@ -52,7 +55,10 @@ function resetData($clone) {
 $('.table-remove').click(function () {
 	var $row = $(this).parents('tr');
 	
-	if ($row.index() === 1) return; // Don't go above the header
+	if ($(this).parents('tbody').find('tr').length === 1) {
+		return;
+	}
+//	if ($row.index() === 1) return; // Don't go above the header
 	
 	$(this).parents('tr').detach();
 });
@@ -68,7 +74,7 @@ $('.table-remove').click(function () {
 //  $row.next().after($row.get(0));
 //});
 
-$('.uPrice').on('focusout', function() {
+$('.uPrice').on('focusout', function(e) {
 	var $row = $(this).parent().parent();
 	
 	var qty = $row.find(".qty").val();
@@ -84,6 +90,8 @@ $('.uPrice').on('focusout', function() {
 	getTotal();
 	
 	getGrandTotal();
+
+    $('.table-add').click();   
 });
 
 $('#taxVal').on('focusout', function() {
