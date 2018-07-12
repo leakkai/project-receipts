@@ -224,71 +224,7 @@
 						        <th></th>
 					      	</tr>
 				      	</thead>
-				      	<tbody>
-				      	
-				      		<!-- <tr class="hide">
-						    	<th id="srnos" style="text-align:right">2</th>
-								<td>
-									<input required="required" class="input" type="text" th:field="*{name}"/>
-								</td>
-								<td>
-									<input required="required" class="input qty" type="number" min="1" th:field="*{quantity}" placeholder="123"/>
-								</td>
-								<td>
-									<input required="required" class="input uPrice" type="number" step="0.01" min="0" th:field="*{unitPrice}" placeholder="123.00"/>
-								</td>
-								<td>
-									<div class="price"></div>
-									<input class="priceVal input" type="hidden" step="0.01" min="0" th:field="*{price}"/>
-								</td>
-								<td>
-									<input class="indiTax" type="hidden" th:field="*{tax}"/>
-									<a class="button taxBox iconz is-primary is-outlined is-inverted fas fa-usd"></a>
-								</td>
-								<td>
-									<div class="dropdown is-active cat-dd">
-										<div class="dropdown-trigger">
-											<a class="button" aria-haspopup="true" aria-controls="dropdown-menu2">
-												<span>Category</span>
-												<span class="icon is-small">
-													<i class="iconz fas fa-angle-down" aria-hidden="true"></i>
-												</span>
-											</a>
-										</div>
-										<div class="dropdown-menu"  role="menu">
-											<div class="dropdown-content hide" >
-												<div class="dropdown-item">
-													<h4 class="title is-5" >Category</h4>
-													
-													<label class="radio">
-														<input type="radio" name="Fh"> Food </input>
-													</label>
-													<label class="radio">
-														<input type="radio" name="Ah"> Accessories </input>
-													</label>
-													<br/>
-													<label class="radio">
-														<input type="radio" name="Bh"> Bills </input>
-													</label>
-													<label class="radio">
-														<input type="radio" name="Qh"> Quality of Life </input>
-													</label>
-													<br/>
-													<label class="radio">
-														<input type="radio" name="Sh"> Shopping/entertainment </input>
-													</label>
-												</div>
-												<hr class="dropdown-divider"></hr>
-												<div class="dropdown-item">
-													<h4 class="title is-5" >Tag</h4>
-												</div>
-											</div>
-										</div>
-									</div>
-								</td>
-								<td><span class="table-remove icon has-text-danger is-medium"><i class="iconz fas fa-times fa-2x"></i></span></td>
-							</tr> -->
-							
+				      	<tbody>							
 							<tr class="control">
 								<th class="sr-no" style="text-align:right">1</th>
 								<td>
@@ -323,11 +259,11 @@
 												<div class="dropdown-item ct-parent">
 													<h4 class="title is-5">Category</h4>
 													
-													<a class="tag is-danger categoryTag" id="catF">Food</a>
-													<a class="tag is-danger categoryTag" id="catA">Accessories</a>
-													<a class="tag is-danger categoryTag" id="catB">Bills</a>
-													<a class="tag is-danger categoryTag" id="catQ">Quality of Life</a>
-													<a class="tag is-danger categoryTag" id="catS">Shopping/entertainment</a>
+													<a class="tag is-danger categoryTag" id="catF">Food</a><br/>
+													<a class="tag is-warning categoryTag" id="catB">Bills</a><br/>
+													<a class="tag categoryTag" id="catA">Accessories</a><br/>
+													<a class="tag is-success categoryTag" id="catQ">Quality of Life</a><br/>
+													<a class="tag is-info categoryTag" id="catS">Shopping/entertainment</a><br/>
 													
 													<input class="hide" type="text" th:field="*{category}"></input>
 													

@@ -381,7 +381,6 @@ function resetModal() {
 	$('#addressCreateButton').removeClass('is-loading is-outlined').text('Create').removeAttr('disabled');
 }
 
-//$('.taxBox')
 $('.category-dropdown').mouseenter(function() {
 	$(this).children('.dropdown-menu').children('.dropdown-content').removeClass('hide');
 });
@@ -404,47 +403,51 @@ $('.categoryTag').click(function () {
 	
 	var $toBePop = $(this).parent().next().next();
 	
-	switch (value) {
+	$toBePop.find('a').remove();
+	
+	switch (value) {		
 		case 'catF':
 			$(this).parent().children('input').val("F");
-			$('<a class="tag tagTag is-info" id="tagGro"> Grocery </a>').appendTo($toBePop);
-			$('<a class="tag tagTag is-info" id="tagMak"> Makan </a>').appendTo($toBePop);
-			$('<a class="tag tagTag is-info" id="tagSna"> Snack </a>').appendTo($toBePop);
+			$('<a class="tag small-tag food">Grocery</a>').appendTo($toBePop);
+			$('<a class="tag small-tag food">Makan</a>').appendTo($toBePop);
+			$('<a class="tag small-tag food">Snack</a>').appendTo($toBePop);
 			break;
 			
 		case 'catA':
 			$(this).parent().children('input').val("A");
+			$('<a class="tag small-tag acce">Furnitures</a>').appendTo($toBePop);
+			$('<a class="tag small-tag acce">Electronics</a>').appendTo($toBePop);
+			$('<a class="tag small-tag acce">Kitchen</a>').appendTo($toBePop);
 			break;
 			
 		case 'catB':
 			$(this).parent().children('input').val("B");
+			$('<a class="tag small-tag bill">Car</a>').appendTo($toBePop);
+			$('<a class="tag small-tag bill">Phone</a>').appendTo($toBePop);
+			$('<a class="tag small-tag bill">Internet</a>').appendTo($toBePop);
+			$('<a class="tag small-tag bill">Rent</a>').appendTo($toBePop);
+			$('<a class="tag small-tag bill">Water</a>').appendTo($toBePop);
+			$('<a class="tag small-tag bill">Electricity</a>').appendTo($toBePop);
+			$('<a class="tag small-tag bill">Gas</a>').appendTo($toBePop);
 			break;
 			
 		case 'catQ':
 			$(this).parent().children('input').val("Q");
+			$('<a class="tag small-tag qual">Workout</a>').appendTo($toBePop);
 			break;
 			
 		case 'catS':
 			$(this).parent().children('input').val("S");
+			$('<a class="tag small-tag spen">Movies</a>').appendTo($toBePop);
+			$('<a class="tag small-tag spen">Toys</a>').appendTo($toBePop);
 			break;
 	}
 });
 
-$('.ttParent').on("click", "a.tagTag", function() {
-	$(this).parent().find('.tagTag').height('2em');
+$('.ttParent').on("click", "a.small-tag", function() {
+	$(this).parent().find('.small-tag').height('2em');
 	$(this).height('3em');
-	
-	var value = $(this).attr('id');
-	
-	switch (value) {
-		case 'tagGro':
-			$(this).parent().children('input').val("groc");
-			break;
-		case 'tagMak':
-			$(this).parent().children('input').val("makan");
-			break;
-		case 'tagSna':
-			$(this).parent().children('input').val("snack");
-			break;
-	}
+
+	var value = $(this).text();
+	$(this).parent().children('input').val(value);	
 });

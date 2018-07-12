@@ -177,3 +177,37 @@ input[type="number"] {
 .dropdown-menu {
 	width: 13rem;
 }
+
+#catA {
+	background-color: #fb9c00;
+	color: white;
+}
+
+.tag.food {
+	background-color: #ffc7d2;
+	color: black;
+}
+
+.tag.acce {
+	background-color: #ffd58f;
+	color: black;
+}
+
+.tag.bill {
+	background-color: #ffeead;
+	color: black;
+}
+
+.tag.qual {
+	background-color: #c4ffd9;
+	color: black;
+}
+
+.tag.spen {
+	background-color: #d2edff;
+	color: black;
+}
+
+.small-tag {
+	margin: 0.1em;
+}
