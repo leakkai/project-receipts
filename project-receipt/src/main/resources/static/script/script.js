@@ -451,3 +451,12 @@ $('.ttParent').on("click", "a.small-tag", function() {
 	var value = $(this).text();
 	$(this).parent().children('input').val(value);	
 });
+
+//Close date UI and focus on store name after tab out from am/pm
+$('.flatpickr-am-pm').on('focusout', function(e) {
+	var $dateUi = $('.flatpickr-calendar');
+	
+	$dateUi.removeClass('open');
+	
+	$('#storeName').focus();
+});
