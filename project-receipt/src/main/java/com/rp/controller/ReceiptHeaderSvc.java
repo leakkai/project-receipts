@@ -38,7 +38,7 @@ public class ReceiptHeaderSvc {
 		
 		try {
 			
-			LocalDateTime receiptDate = header.getDate();
+			LocalDateTime receiptDate = LocalDateTime.parse(header.getDate());
 	        String storeName = header.getStoreName();
 	        String paymentType = header.getPaymentType();
 	        
@@ -49,8 +49,8 @@ public class ReceiptHeaderSvc {
 	        
 	        int addId = 0;
 	        
-	        if (null!= header.getAddressDummyText() && !header.getAddressDummyText().isEmpty()) {
-	        	addId = Integer.parseInt(header.getAddressDummyText().get(0));
+	        if (null != header.getAddressId() && header.getAddressId() > 0) {
+	        	addId = header.getAddressId();
 	        }
 	        else {
 	        	//Address Id not sent?!

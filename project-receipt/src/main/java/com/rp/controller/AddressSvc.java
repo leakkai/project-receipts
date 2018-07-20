@@ -1,11 +1,8 @@
 package com.rp.controller;
 
-import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.rp.exception.AddAddressException;
 import com.rp.model.Address;
 import com.rp.model.AddressReq;
-import com.rp.model.RequestClass;
+import com.rp.model.GetAddressResponse;
 import com.rp.repository.AddressRepo;
 
 @Service
@@ -57,10 +54,13 @@ public class AddressSvc {
 		return addRepo.findByStore(name);		
 	}
 	
-	public List<String> convertToTextArray(List<Address> addressList) {
-		List<String> addressTextList = new ArrayList<String>();
+	public List<GetAddressResponse> convertToReturnObj(List<Address> addressList) {
+		List<GetAddressResponse> addressObj = new ArrayList<GetAddressResponse>();
 		
 		for (Address a : addressList) {
+			GetAddressResponse aReturn = new GetAddressResponse();
+			
+			Integer id = a.getAddressId();
 			String add1 = a.getAddress1();
 			String add2 = a.getAddress2();
 			String add3 = a.getAddress3();
@@ -69,7 +69,7 @@ public class AddressSvc {
 			String state = a.getState();
 			String country = a.getCountry();
 			
-			String aAdd = new String();
+			String addText = new String();
 			
 			if (null == add1 || add1.isEmpty() ||
 				null == city || city.isEmpty() ||
@@ -79,25 +79,28 @@ public class AddressSvc {
 				break;
 			}
 			
-			aAdd = add1;
+			addText = add1;
 			
 			if (null != add2 && !add2.isEmpty()) {
-				aAdd += ", " + add2;
+				addText += ", " + add2;
 			}
 			
 			if (null != add3 && !add3.isEmpty()) {
-				aAdd += ", " + add3;
+				addText += ", " + add3;
 			}
 			
-			aAdd += ", " + city;
-			aAdd += ", " + state;
-			aAdd += " " + zip;
-			aAdd += ", " + country;
+			addText += ", " + city;
+			addText += ", " + state;
+			addText += " " + zip;
+			addText += ", " + country;
 			
-			addressTextList.add(aAdd);
+			aReturn.setId(id);
+			aReturn.setAddress(addText);
+			
+			addressObj.add(aReturn);
 		}
 		
-		return addressTextList;
+		return addressObj;
 	}
 
 	@Transactional(rollbackFor = Exception.class)
@@ -138,25 +141,14 @@ public class AddressSvc {
     }
 	
 	@Transactional(rollbackFor = Exception.class)
-    public RequestClass getAddress(@Valid RequestClass request) throws ParseException {   
-
-        String name = request.getStoreName();
+    public List<GetAddressResponse> getAddress(String storeName) throws Exception {   
         
-        if (null == name) {
-//        	return "rh";
+        if (null == storeName || storeName.isEmpty()) {
+        	throw new Exception("Store name is needed while retrieving addresses");
         }
         
-        List<Address> storeAddress = this.findByStore(name);
+        List<Address> storeAddress = this.findByStore(storeName);
         
-        if (storeAddress.isEmpty()) {
-        	//error creating or smtg
-        }
-        
-        List<String> addressDummy = this.convertToTextArray(storeAddress);
-        
-        request.setAddressList(storeAddress);
-        request.setAddressDummyText(addressDummy);
-
-        return request;
+        return this.convertToReturnObj(storeAddress);
     }
 }

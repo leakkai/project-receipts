@@ -5,7 +5,7 @@
 
     <groupId>org.springframework</groupId>
     <artifactId>project-receipt</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -75,6 +75,12 @@
     		<groupId>com.fasterxml.jackson.dataformat</groupId>
     		<artifactId>jackson-dataformat-xml</artifactId>
 		</dependency>
+		
+		<!-- Enable HTML5 syntax in Thymeleaf template engine -->
+		<dependency>
+     		<groupId>net.sourceforge.nekohtml</groupId>
+     		<artifactId>nekohtml</artifactId>
+ 		</dependency>
     </dependencies>
     
     <repositories>

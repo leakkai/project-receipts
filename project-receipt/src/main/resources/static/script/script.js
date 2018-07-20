@@ -18,50 +18,40 @@ var tips = 0.00;
 
 var count = 1;
 
-
-$('.table-add').click(function () {
-//  var $clone = $TABLE.find('tr.hide').clone(true).removeClass('hide').addClass('control');
-//  $TABLE.find('table').append($clone);
-//  
-//  var a = parseInt($('#srnos').text(), 10) + 1;
-//  $('#srnos').text(a);
-  
-  
-//  var $clone = $TABLE.find('tr.control').clone(true);
+//	Clone the first detail row, reset all data then add to the most bottom
+function addRow() {
 	var $clone = $TABLE.find('tr:eq(1)').clone(true);
 	count++;
 	resetData($clone);
 	$TABLE.find('table').append($clone);
 	
 	
-	$clone.find('#name').focus();
-});
-
-function resetData($clone) {
-//	var srNo = parseInt($clone.children('.sr-no').text(), 10) + 1;
-	$clone.children('.sr-no').text(count);
-	
-	$clone.find('#name').val('');
-	$clone.find('#quantity').val('');
-	$clone.find('#unitPrice').val('');
-	$clone.find('#price').val('');
-	$clone.find('.price').text('');
-	$clone.find('#tax').val('');
-	$clone.find('.taxBox').addClass('is-inverted');
-	
-	
+	$clone.find('[name="name[]"]').focus();
 }
 
-$('.table-remove').click(function () {
-	var $row = $(this).parents('tr');
+//	Delete that row
+function delRow($e) {
+	var $row = $e.parents('tr');
 	
-	if ($(this).parents('tbody').find('tr').length === 1) {
+	if ($e.parents('tbody').find('tr').length === 1) {
 		return;
 	}
-//	if ($row.index() === 1) return; // Don't go above the header
 	
-	$(this).parents('tr').detach();
-});
+	$e.parents('tr').detach();
+}
+
+//	Reset all data to empty in a row
+function resetData($clone) {
+	$clone.children('.sr-no').text(count);
+	
+	$clone.find('[name="name[]"]').val('');
+	$clone.find('[name="quantity[]"]').val('');
+	$clone.find('[name="unitPrice[]"]').val('');
+	$clone.find('[name="price[]"]').val('');
+	$clone.find('.price').text('');
+	$clone.find('[name="tax[]"]').val('');
+	$clone.find('.taxBox').addClass('is-inverted');
+}
 
 //$('.table-up').click(function () {
 //  var $row = $(this).parents('tr');
@@ -74,74 +64,63 @@ $('.table-remove').click(function () {
 //  $row.next().after($row.get(0));
 //});
 
-$('.uPrice').on('focusout', function(e) {
-	var $row = $(this).parent().parent();
+//	Calculate the overall price. This method is specifically made for after unit price
+function calculatePrice($e) {
+	var $row = $e.parent().parent();
 	
-	var qty = $row.find(".qty").val();
-	var unitPrice = $row.find(".uPrice").val();
+	var qty = $row.find('[name="quantity[]"]').val();
+	var unitPrice = $row.find('[name="unitPrice[]"]').val();
 	
 	var priceSum = qty * unitPrice;
 	
 	$row.find(".price").text(priceSum);
-	$row.find(".priceVal").val(priceSum);
+	$row.find('[name="price[]"]').val(priceSum);
 	
 	total += priceSum;
-	
-	getTotal();
-	
-	getGrandTotal();
+}
 
-    $('.table-add').click();   
-});
-
-$('#taxVal').on('focusout', function() {
-	
+//	Calculate grand total after tax been modified manually
+function calculateAfterTax() {
 	var editedTax = $('#taxVal').val();
 	
-	if (editedTax == "") {
+	if (null === editedTax || editedTax === "" || editedTax === 0) {
 		return;
 	}
 	
-	tax = parseFloat($('#taxVal').val(), 10);
+	tax = parseFloat(editedTax, 10);
 	
 	$('#taxVal').val(tax);
-	
-	getGrandTotal();
-});
+}
 
-
-$('.taxBox').click(function () {
-	
-	var tempPrice = $(this).parent().prev().children('.price').text();
+//	Calculate a tax for each detail and add to total tax
+function taxBoxClicked($e) {
+	var tempPrice = $e.parent().prev().children('.price').text();
 	
 	var indiTax = 0;
 	
-	if ($(this).prev().val() <= 0 || $(this).prev().val() == '') {
+	if ($e.prev().val() === '' || $e.prev().val() <= 0) {
 		indiTax = setTax(parseFloat(tempPrice, 10), true);
-		$(this).prev().val(indiTax);
-		$(this).removeClass('is-inverted');
+		$e.prev().val(indiTax);
+		$e.removeClass('is-inverted');
 	}
 	else {
 		indiTax = setTax(parseFloat(tempPrice, 10), false);
-		$(this).prev().val(0);
-		$(this).addClass('is-inverted');
+		$e.prev().val(0);
+		$e.addClass('is-inverted');
 	}
-	
-	getGrandTotal();
-});
+}
 
-$('#tips').on('focusout', function() {
-	tips = parseFloat($(this).val(), 10);
-	
-	getGrandTotal();
-});
+//	Set global var -- tips
+function setTips($e) {
+	tips = parseFloat($e.val(), 10);
+}
 
 function getTotal() {
 	
 	var tmptotal = 0;
 	var $details = $TABLE.find('tbody').children('.control');
 	$details.each(function() {
-		tmptotal += parseFloat($(this).find('#price').val(), 10);
+		tmptotal += parseFloat($(this).find('[name="price[]"]').val(), 10);
 	});
 	tmptotal = round(tmptotal, 2);
 	total = tmptotal;
@@ -196,36 +175,8 @@ function getGrandTotal() {
 	$('#grandTotalText').text(grand);
 }
 
-$('#saveTransaction').click(function () {
-	
-//	var $hiddenRow = $TABLE.find('tr.hide');
-//	$hiddenRow.remove();
-	
-	var $headerForm = $('#headerForm');
-	
-	if(! $headerForm[0].checkValidity()) {
-		
-		$TABLE.find('table').append($hiddenRow);
-		return;
-	}
-
-	$('#success-foreground').css("zIndex", 1);
-	$('#success-load').removeClass('hide').addClass('animated bounceInLeft');
-	setTimeout(function() {
-		$('#success-load').removeClass('fadeInLeft').addClass('fadeOut');
-		
-		setTimeout(function() {
-			$('#success-check').removeClass('hide').addClass('animated fadeIn');
-			setTimeout(function() {
-				$('#success-check').removeClass('fadeIn').addClass('bounceOutRight');
-				$('#success-foreground').css("zIndex", -1);
-			}, 500);
-		}, 500);
-		
-	}, 2000);
-});
-
-$('#toTable').click(function(e) {
+//	Smooth scrolling after clicking some elements, temporally disable
+/*$('#toTable').click(function(e) {
     // target element id
     var id = $TABLE;
     
@@ -243,20 +194,7 @@ $('#toTable').click(function(e) {
     
     // animated top scrolling
     $('body, html').animate({scrollTop: pos});
-});
-
-$('#addAddress').click(function(e) {
-	if ($('#addAddress').is('[disabled=disabled]')) {
-		return;
-	}
-	
-	resetModal();
-	toggleModalClasses(e);
-});
-
-$('#closeAddress').click(toggleModalClasses);
-
-$('.modal-background').click(toggleModalClasses);
+});*/
 
 function toggleModalClasses(event) {
     var modalId = event.currentTarget.dataset.modalId;
@@ -265,52 +203,62 @@ function toggleModalClasses(event) {
     $('html').toggleClass('is-clipped');
 };
 
-$('#storeName').on('focusout', function() {
-	
+function enableAddressButton() {
 	var storeName = $('[name=storeName]').val();
 	
-	if (storeName == null || storeName == "") {
+	if (storeName === null || storeName === "") {
 		$('#addAddress').attr('disabled', 'disabled');
 		return;
 	}
 	
-	retrieveAddress(storeName);
+	var data = retrieveAddress(storeName);
+	
+	data.done(function(data) {
+	if (data.status === "success") {
+
+		var addList = data.object;
+		
+		$.each(addList, function(key, value) {
+			$('[name=addressList]')
+				.append($('<option>', { value : addList[key].id })
+						.text(addList[key].address));
+		});
+	}
+});
 	
 	$('#addAddress').removeAttr('disabled');
-});
+}
 
 function retrieveAddress(storeName) {
-	$('[name=addressDummyText]').find('option').remove();
+	$('[name=addressList]').find('option').remove();
 	
-	$.get("getAddress",
+/*	$.get("getAddress",
 	    {
 	      storeName: storeName
 	    },
 	    function(data){
-	    	var add = data.addressList;
-	    	$.each(add, function(key, value) {
+	    	var addList = data.addressList;
+	    	$.each(addList, function(key, value) {
 	    		$('[name=addressDummyText]')
-	    	     	.append($('<option>', { value : add[key].addressId })
+	    	     	.append($('<option>', { value : addList[key].addressId })
 	    	        .text( data.addressDummyText[key] ));
 	    	});
-	    });
-}
-
-$('#addressCreateButton').click(function(e) {
-	 
-	var $myForm = $('#addressForm');
-	
-	if(! $myForm[0].checkValidity()) {
-		  // If the form is invalid, submit it. The form won't actually submit;
-		  // this will just cause the browser to display the native HTML5 error messages.
-		$('<input type="submit">').hide().appendTo($myForm).click().remove();
-		return;
+	    });*/
+	request = {
+			"storeName": storeName
 	}
 	
-	$('#addressCreateButton').addClass('is-loading');
+	var data = serverGet("", "getAddress/"+storeName);
 	
-	e.preventDefault();
+	return data;
+
 	
+	
+	
+	
+}
+
+function createAddress() {	
 	var req = {
 			"street": $('#address1').val(),
 			"city": $('#city').val(),
@@ -322,12 +270,20 @@ $('#addressCreateButton').click(function(e) {
 
 	var tmp = serverPost(req, "addAddress");
 	
-	tmp.done(function(data) {
-		retrieveAddress($('#storeName').val());
-		
-		$('#addressCreateButton').removeClass('is-loading').addClass('is-outlined').text('Done').attr('disabled', 'disabled');
+	return tmp;
+}
+
+function saveTransaction($req) {
+//	var data = $req.serializeArray();
+//	var data = $req.serialize();
+	var data = $req.serializeObject();
+	
+	var res = serverPost(data, "process");
+	
+	res.done(function(data) {
+		alert("WOHOO");
 	});
-});
+}
 
 function serverPost(req, url) {
 
@@ -342,11 +298,46 @@ function serverPost(req, url) {
 	    	if (data.status === "success") {
 //	    		alert(data.id);
 	    	}
-	    	else if (data.status === "empty field(s)") {
-	    		alert("All fields must not be empty");
+	    	else {
+	    		alert(data.status);
 	    	}
-	    	else if (data.status === "address fail") {
-	    		alert("Address creation fail :(");
+	    },
+	    error: function( jqXhr, textStatus, errorThrown ){
+	    	var msg = '';
+	        if (jqXhr.status === 0) {
+	            msg = 'Not connect.\n Verify Network.';
+	        } else if (jqXhr.status == 404) {
+	            msg = 'Requested page not found. [404]';
+	        } else if (jqXhr.status == 500) {
+	            msg = 'Internal Server Error [500].';
+	        } else if (errorThrown === 'parsererror') {
+	            msg = 'Requested JSON parse failed.';
+	        } else if (errorThrown === 'timeout') {
+	            msg = 'Time out error.';
+	        } else if (errorThrown === 'abort') {
+	            msg = 'Ajax request aborted.';
+	        } else {
+	            msg = 'Uncaught Error.\n' + jqXhr.responseText;
+	        }
+	        alert(msg);
+	    }
+	});
+}
+
+function serverGet(req, url) {
+	return $.ajax({
+	    url: url,
+	    dataType: 'json',
+	    type: 'get',
+	    contentType: 'application/json',
+//	    data: JSON.stringify( req ),
+	    processData: false,
+	    success: function( data ){
+	    	if (data.status === "success") {
+//	    		alert(data.id);
+	    	}
+	    	else {
+	    		alert(data.status);
 	    	}
 	    },
 	    error: function( jqXhr, textStatus, errorThrown ){
@@ -381,82 +372,97 @@ function resetModal() {
 	$('#addressCreateButton').removeClass('is-loading is-outlined').text('Create').removeAttr('disabled');
 }
 
-$('.category-dropdown').mouseenter(function() {
-	$(this).children('.dropdown-menu').children('.dropdown-content').removeClass('hide');
-});
-
-$('.category-dropdown').mouseleave(function() {
-	$(this).children('.dropdown-menu').children('.dropdown-content').addClass('hide');
-});
-
-$('#categorySelection').on('focusout', function() {
-	var cat = $('#categorySelection').val();
+function setDetailCategory($e) {
+	var value = $e.attr('id');
 	
-	$('.ct-parent').find('#cat'+cat).click();
-});
-
-$('.categoryTag').click(function () {
-	$(this).parent().find('.tag').height('2em');
-	$(this).height('3em');
-
-	var value = $(this).attr('id');
-	
-	var $toBePop = $(this).parent().next().next();
+	var $toBePop = $e.parent().next().next();
 	
 	$toBePop.find('a').remove();
-	
-	switch (value) {		
-		case 'catF':
-			$(this).parent().children('input').val("F");
-			$('<a class="tag small-tag food">Grocery</a>').appendTo($toBePop);
-			$('<a class="tag small-tag food">Makan</a>').appendTo($toBePop);
-			$('<a class="tag small-tag food">Snack</a>').appendTo($toBePop);
-			break;
-			
-		case 'catA':
-			$(this).parent().children('input').val("A");
-			$('<a class="tag small-tag acce">Furnitures</a>').appendTo($toBePop);
-			$('<a class="tag small-tag acce">Electronics</a>').appendTo($toBePop);
-			$('<a class="tag small-tag acce">Kitchen</a>').appendTo($toBePop);
-			break;
-			
-		case 'catB':
-			$(this).parent().children('input').val("B");
-			$('<a class="tag small-tag bill">Car</a>').appendTo($toBePop);
-			$('<a class="tag small-tag bill">Phone</a>').appendTo($toBePop);
-			$('<a class="tag small-tag bill">Internet</a>').appendTo($toBePop);
-			$('<a class="tag small-tag bill">Rent</a>').appendTo($toBePop);
-			$('<a class="tag small-tag bill">Water</a>').appendTo($toBePop);
-			$('<a class="tag small-tag bill">Electricity</a>').appendTo($toBePop);
-			$('<a class="tag small-tag bill">Gas</a>').appendTo($toBePop);
-			break;
-			
-		case 'catQ':
-			$(this).parent().children('input').val("Q");
-			$('<a class="tag small-tag qual">Workout</a>').appendTo($toBePop);
-			break;
-			
-		case 'catS':
-			$(this).parent().children('input').val("S");
-			$('<a class="tag small-tag spen">Movies</a>').appendTo($toBePop);
-			$('<a class="tag small-tag spen">Toys</a>').appendTo($toBePop);
-			break;
-	}
-});
+}
 
-$('.ttParent').on("click", "a.small-tag", function() {
-	$(this).parent().find('.small-tag').height('2em');
-	$(this).height('3em');
 
-	var value = $(this).text();
-	$(this).parent().children('input').val(value);	
-});
 
-//Close date UI and focus on store name after tab out from am/pm
-$('.flatpickr-am-pm').on('focusout', function(e) {
-	var $dateUi = $('.flatpickr-calendar');
-	
-	$dateUi.removeClass('open');
-	
-	$('#storeName').focus();
-});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(function($){
+    $.fn.serializeObject = function(){
+
+        var self = this,
+            json = {},
+            push_counters = {},
+            patterns = {
+                "validate": /^[a-zA-Z][a-zA-Z0-9_]*(?:\[(?:\d*|[a-zA-Z0-9_]+)\])*$/,
+                "key":      /[a-zA-Z0-9_]+|(?=\[\])/g,
+                "push":     /^$/,
+                "fixed":    /^\d+$/,
+                "named":    /^[a-zA-Z0-9_]+$/
+            };
+
+
+        this.build = function(base, key, value){
+            base[key] = value;
+            return base;
+        };
+
+        this.push_counter = function(key){
+            if(push_counters[key] === undefined){
+                push_counters[key] = 0;
+            }
+            return push_counters[key]++;
+        };
+
+        $.each($(this).serializeArray(), function(){
+
+            // skip invalid keys
+            if(!patterns.validate.test(this.name)){
+                return;
+            }
+
+            var k,
+                keys = this.name.match(patterns.key),
+                merge = this.value,
+                reverse_key = this.name;
+
+            while((k = keys.pop()) !== undefined){
+
+                // adjust reverse_key
+                reverse_key = reverse_key.replace(new RegExp("\\[" + k + "\\]$"), '');
+
+                // push
+                if(k.match(patterns.push)){
+                    merge = self.build([], self.push_counter(reverse_key), merge);
+                }
+
+                // fixed
+                else if(k.match(patterns.fixed)){
+                    merge = self.build([], k, merge);
+                }
+
+                // named
+                else if(k.match(patterns.named)){
+                    merge = self.build({}, k, merge);
+                }
+            }
+
+            json = $.extend(true, json, merge);
+        });
+
+        return json;
+    };
+})(jQuery);

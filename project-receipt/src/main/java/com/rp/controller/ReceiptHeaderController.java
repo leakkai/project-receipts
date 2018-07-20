@@ -2,14 +2,12 @@ package com.rp.controller;
 
 import java.text.ParseException;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.rp.model.AddressReq;
 import com.rp.model.RequestClass;
+
+import ResponseHolder.ResponseHolder;
 
 @Controller    // This means that this class is a Controller
 @RequestMapping(path="/receipt/") // This means URL's start with /user (after Application path)
@@ -35,7 +35,7 @@ public class ReceiptHeaderController {
     	return "/receipt/home";
     }
     
-	@PostMapping("process")
+/*	@PostMapping("process")
     public String processTransaction(@Valid RequestClass request, BindingResult bindingResult, Model model) throws ParseException {
 
 		try {
@@ -51,23 +51,40 @@ public class ReceiptHeaderController {
 			//add error later
 			return this.simpleView(model); 
 		}
-    }
+    }*/
 	
-	
-	@GetMapping("getAddress")
-    public @ResponseBody RequestClass getAddress(@Valid RequestClass request, BindingResult bindingResult, Model model) throws ParseException {
+	@RequestMapping(value = "process", produces = "application/json", method = RequestMethod.POST)
+    public String processTransaction(@RequestBody RequestClass request, BindingResult bindingResult, Model model) throws ParseException {
 
 		try {
-			if (bindingResult.hasErrors()) {
-				//add error later
-			}
-
-			return addSvc.getAddress(request);
+	        if (bindingResult.hasErrors()) {
+	            return "rh";
+	        }        
+	        
+	        rhSvc.processTransaction(request);
+	        
+	        return this.simpleView(model);
 		}
 		catch (Exception e) {
 			//add error later
-			return null;
+			return this.simpleView(model); 
 		}
+    }
+
+	@RequestMapping(value = "getAddress/{storeName}", produces = "application/json", method = RequestMethod.GET)
+	@ResponseBody
+    public ResponseHolder getAddress(@PathVariable("storeName") String storeName) throws ParseException {
+		ResponseHolder response = new ResponseHolder();
+		
+		try {
+			response.setStatus("success");
+			response.setObject(addSvc.getAddress(storeName));
+		}
+		catch (Exception e) {
+			response.setStatus(e.getMessage());
+		}
+		
+		return response;
     }	
 	
 	@RequestMapping(value = "addAddress", produces = "application/json", method = RequestMethod.POST)

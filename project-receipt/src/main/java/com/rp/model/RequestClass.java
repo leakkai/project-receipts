@@ -16,8 +16,8 @@ public class RequestClass implements Serializable {
 
 	private static final long serialVersionUID = 1045524282598892390L;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-	private LocalDateTime date;
+//	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+	private String date;
 
 	private String storeName;
 
@@ -37,15 +37,13 @@ public class RequestClass implements Serializable {
 	
 	private BigDecimal totalTax;
 	
-	private BigDecimal tips = new BigDecimal(0);
+	private BigDecimal tips;
 	
 	private BigDecimal grandTotal;
 	
 	private String paymentType;
 	
-	private List<String> addressDummyText;
-	
-	private List<Address> addressList;
+	private Integer addressId;
 	
 	private List<String> category;
 	
@@ -54,11 +52,11 @@ public class RequestClass implements Serializable {
 	public RequestClass() {
 	}
 
-	public LocalDateTime getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(LocalDateTime date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 
@@ -158,20 +156,12 @@ public class RequestClass implements Serializable {
 		this.paymentType = paymentType;
 	}
 
-	public List<String> getAddressDummyText() {
-		return addressDummyText;
+	public Integer getAddressId() {
+		return addressId;
 	}
 
-	public void setAddressDummyText(List<String> addressDummyText) {
-		this.addressDummyText = addressDummyText;
-	}
-
-	public List<Address> getAddressList() {
-		return addressList;
-	}
-
-	public void setAddressList(List<Address> addressList) {
-		this.addressList = addressList;
+	public void setAddressId(Integer addressId) {
+		this.addressId = addressId;
 	}
 
 	public List<String> getCategory() {
