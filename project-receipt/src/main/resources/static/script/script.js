@@ -203,28 +203,12 @@ function toggleModalClasses(event) {
     $('html').toggleClass('is-clipped');
 };
 
-function enableAddressButton() {
-	var storeName = $('[name=storeName]').val();
+function enableAddressButton(storeName) {
 	
 	if (storeName === null || storeName === "") {
-		$('#addAddress').attr('disabled', 'disabled');
+		$('#addAddress').attr('disabled', 'true');
 		return;
 	}
-	
-	var data = retrieveAddress(storeName);
-	
-	data.done(function(data) {
-	if (data.status === "success") {
-
-		var addList = data.object;
-		
-		$.each(addList, function(key, value) {
-			$('[name=addressList]')
-				.append($('<option>', { value : addList[key].id })
-						.text(addList[key].address));
-		});
-	}
-});
 	
 	$('#addAddress').removeAttr('disabled');
 }
@@ -232,30 +216,11 @@ function enableAddressButton() {
 function retrieveAddress(storeName) {
 	$('[name=addressList]').find('option').remove();
 	
-/*	$.get("getAddress",
-	    {
-	      storeName: storeName
-	    },
-	    function(data){
-	    	var addList = data.addressList;
-	    	$.each(addList, function(key, value) {
-	    		$('[name=addressDummyText]')
-	    	     	.append($('<option>', { value : addList[key].addressId })
-	    	        .text( data.addressDummyText[key] ));
-	    	});
-	    });*/
-	request = {
-			"storeName": storeName
+	if (storeName !== null && storeName !== "") {
+		var data = serverGet("", "getAddress/"+storeName);
+	
+		return data;
 	}
-	
-	var data = serverGet("", "getAddress/"+storeName);
-	
-	return data;
-
-	
-	
-	
-	
 }
 
 function createAddress() {	
@@ -278,11 +243,7 @@ function saveTransaction($req) {
 //	var data = $req.serialize();
 	var data = $req.serializeObject();
 	
-	var res = serverPost(data, "process");
-	
-	res.done(function(data) {
-		alert("WOHOO");
-	});
+	return serverPost(data, "process");
 }
 
 function serverPost(req, url) {
@@ -378,6 +339,8 @@ function setDetailCategory($e) {
 	var $toBePop = $e.parent().next().next();
 	
 	$toBePop.find('a').remove();
+	
+	$e.parent().find('input').val(value[value.length-1]);
 }
 
 

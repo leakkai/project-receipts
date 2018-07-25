@@ -6,17 +6,17 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.rp.exception.AddAddressException;
 import com.rp.model.Address;
 import com.rp.model.AddressReq;
 import com.rp.model.GetAddressResponse;
 import com.rp.repository.AddressRepo;
 
 @Service
-public class AddressSvc {
+public class AddressSvc extends BaseSvc {
 
 	@Autowired
 	private StoreSvc stoSvc;
@@ -103,8 +103,8 @@ public class AddressSvc {
 		return addressObj;
 	}
 
-	@Transactional(rollbackFor = Exception.class)
-    public String addAddress(@RequestBody AddressReq request) throws Exception {
+	@Transactional(propagation=Propagation.REQUIRED)
+    public Integer addAddress(@RequestBody AddressReq request) {
 
 		String add1 = request.getStreet();
 		String city = request.getCity();
@@ -120,31 +120,54 @@ public class AddressSvc {
 				null == sta || sta.isEmpty() ||
 				null == cou || cou.isEmpty() ||
 				null == name || name.isEmpty()) {
-			return "{\"status\":\"empty field(s)\"}";
+			
+			if (null == add1 || add1.isEmpty()) {
+				this.addError("Address 1 cannot be empty");
+			}
+			
+			if (null == city || city.isEmpty()) {
+				this.addError("City cannot be empty");
+			}
+			
+			if (null == zip || zip.isEmpty()) {
+				this.addError("Zip code cannot be empty");
+			}
+			
+			if (null == sta || sta.isEmpty()) {
+				this.addError("State cannot be empty");
+			}
+			
+			if (null == cou || cou.isEmpty()) {
+				this.addError("Country cannot be empty");
+			}
+			
+			if (null == name || name.isEmpty()) {
+				this.addError("Store name cannot be empty");
+			}
+
+			this.throwError();
 		}
 		
-		int id = this.createAddress(add1, city, zip, sta, cou);
+		Integer id = this.createAddress(add1, city, zip, sta, cou);
 		
-		if (id < 1) {
-//			throw new Exception("{\"status\":\"address fail\"}");
-			throw new AddAddressException("address fail");
+		if (null == id || id < 1) {
+			this.throwError("Address creation failed");
 		}
 		
-		int stoId = stoSvc.createStore(id, name);
+		Integer storeId = stoSvc.createStore(id, name);
 		
-		if (stoId < 1) {
-			return "{\"status\":\"store fail\"}";
+		if (null == storeId || storeId < 1) {
+			this.throwError("Store creation failed");
 		}
 		
-        return "{\"status\":\"success\", "
-        		+ "\"id\":" + stoId + "}";
+        return storeId;
     }
 	
-	@Transactional(rollbackFor = Exception.class)
-    public List<GetAddressResponse> getAddress(String storeName) throws Exception {   
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public List<GetAddressResponse> getAddress(String storeName) {   
         
         if (null == storeName || storeName.isEmpty()) {
-        	throw new Exception("Store name is needed while retrieving addresses");
+        	this.throwError("Store name is needed while retrieving addresses");
         }
         
         List<Address> storeAddress = this.findByStore(storeName);

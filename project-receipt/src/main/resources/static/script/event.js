@@ -60,7 +60,32 @@ $('.modal-background').click(toggleModalClasses);
 
 //	Enable/disable add address after tabbing out from store name
 $('#storeName').on('focusout', function() {
-	enableAddressButton();
+	
+	var storeName = $(this).val();
+	
+	enableAddressButton(storeName);
+	
+	var result = retrieveAddress(storeName);
+	
+	result.done(function(data) {
+		if (data.status === "success") {
+	
+			var addList = data.object;
+			
+			$.each(addList, function(key, value) {
+				$('[name=addressId]')
+					.append($('<option>', { value : addList[key].id })
+							.text(addList[key].address));
+			});
+			
+			$('#addressId').val(addList[0].id);
+		}
+	});
+});
+
+//	Tab out from address list, set value
+$('#addressId').on('focusout', function() {
+//	$('#addressId').val($("#addressId option:selected").val());
 });
 
 //	Create address clicked
@@ -79,9 +104,9 @@ $('#addressCreateButton').click(function(e) {
 	
 	e.preventDefault();
 	
-	var tmp = createAddress();
+	var result = createAddress();
 	
-	tmp.done(function(data) {
+	result.done(function(data) {
 		retrieveAddress($('#storeName').val());
 		
 		$('#addressCreateButton').removeClass('is-loading').addClass('is-outlined').text('Done').attr('disabled', 'disabled');
@@ -124,21 +149,24 @@ $('#saveTransaction').click(function (e) {
 	
 	e.preventDefault();
 
-	
-	saveTransaction($headerForm);
-	
 	$('#success-foreground').css("zIndex", 1);
 	$('#success-load').removeClass('hide').addClass('animated bounceInLeft');
-	setTimeout(function() {
+	
+	var result = saveTransaction($headerForm);
+	
+	result.done(function(data) {
 		$('#success-load').removeClass('fadeInLeft').addClass('fadeOut');
 		
-		setTimeout(function() {
+		if (data.status === "success") {
 			$('#success-check').removeClass('hide').addClass('animated fadeIn');
-			setTimeout(function() {
-				$('#success-check').removeClass('fadeIn').addClass('bounceOutRight');
-				$('#success-foreground').css("zIndex", -1);
-			}, 500);
-		}, 500);
-		
-	}, 2000);
+			$('#success-check').removeClass('fadeIn').addClass('bounceOutRight');
+			alert("YESSS");
+		}
+		else {
+			//load "X" animation
+			alert("sumting wong");
+		}
+	});
+	
+	$('#success-foreground').css("zIndex", -1);
 });
