@@ -10,7 +10,7 @@ public class AddressReq implements Serializable {
 
 	private static final long serialVersionUID = 1728044064948034881L;
 
-	private String storeName;
+	private Integer storeId;
 
 	private String street;
 
@@ -25,12 +25,12 @@ public class AddressReq implements Serializable {
 	public AddressReq() {
 	}
 
-	public String getStoreName() {
-		return storeName;
+	public Integer getStoreId() {
+		return storeId;
 	}
 
-	public void setStoreName(String storeName) {
-		this.storeName = storeName;
+	public void setStoreId(Integer storeId) {
+		this.storeId = storeId;
 	}
 
 	public String getStreet() {

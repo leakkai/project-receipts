@@ -18,5 +18,5 @@ public interface StoreRepo extends CrudRepository<Store, Long> {
 	List<Store> findById(@Param("id") int id);
 	
 	@Query("select s from Store s where s.storeName = :name")
-	List<Store> findByName(@Param("name") String name);
+	Store findByName(@Param("name") String name);
 }

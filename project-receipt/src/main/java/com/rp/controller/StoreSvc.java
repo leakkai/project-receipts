@@ -1,7 +1,6 @@
 package com.rp.controller;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,22 +14,30 @@ public class StoreSvc {
 	@Autowired
 	private StoreRepo stRepo;
 	
-	public int createStore(int addId, String storeName) {
+	public Store createStore(String storeName) {
 		
 		Store newStore = new Store();
 		LocalDateTime current = LocalDateTime.now();
 		
-		newStore.setAddressId(addId);
+//		newStore.setAddressId(addId);
 		newStore.setStoreName(storeName);
 		newStore.setCreatedDate(current);
 		newStore.setLastModDate(current);
 		
 		stRepo.save(newStore);
 		
-		return newStore.getStoreId();
+		return newStore;
 	}
 	
-	public List<Store> findByName(String name) {
-		return stRepo.findByName(name);
+	public Store findStore(String storeName) {
+		Store s = stRepo.findByName(storeName);
+		
+//		if (null == s) {
+//			s = this.createStore(name);
+//		}
+		
+		return s;
 	}
+	
+	
 }

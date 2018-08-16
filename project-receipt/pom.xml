@@ -81,6 +81,13 @@
      		<groupId>net.sourceforge.nekohtml</groupId>
      		<artifactId>nekohtml</artifactId>
  		</dependency>
+ 		
+  		<!-- Hibernate? -->
+<!-- 		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-core</artifactId>   
+		    <version>5.2.2.Final</version>
+		</dependency> -->
     </dependencies>
     
     <repositories>

@@ -142,7 +142,7 @@ input[type="number"] {
 }
 
 #success-load:after {
-	-webkit-animation: spinAround 500ms infinite linear;
+/* 	-webkit-animation: spinAround 500ms infinite linear;
 	animation: spinAround 1000ms infinite linear;
 	border: 10px solid #1bd33f;
 	border-radius: 290486px;
@@ -153,7 +153,7 @@ input[type="number"] {
 	height: 20em;
 	width: 20em;
 	left: calc(50% - (20em / 2));
-	top: calc(50% - (20em / 2));
+	top: calc(50% - (20em / 2)); */
 }
 
 #success-load {
@@ -206,4 +206,24 @@ input[type="number"] {
 
 .small-tag {
 	margin: 0.1em;
+}
+
+.fadeOut.animated {
+	/* animation-delay: 0.5s; */
+}
+
+.animated.fadeIn {
+	/* animation-delay: 1s; */
+}
+
+.bounceOutRight.animated {
+	/* animation-delay: 10.5s; */
+}
+
+.bounceInLeft.animated {
+	/* -webkit-animation: bounceInLeft 1s; Safari 4+
+	-moz-animation:    bounceInLeft 100s; Fx 5+
+	-o-animation:      bounceInLeft 1s; Opera 12+
+	animation:         bounceInLeft 1s; IE 10+, Fx 29+ */
+	animation-delay: 10.5s;
 }

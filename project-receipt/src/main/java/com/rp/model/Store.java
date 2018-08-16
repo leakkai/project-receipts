@@ -3,6 +3,7 @@ package com.rp.model;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,9 +25,8 @@ public class Store implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int storeId;
-
-	private int addressId;
+	@Column(name="STORE_ID")
+	private Integer storeId;
 
 	private LocalDateTime createdDate;
 
@@ -39,20 +39,12 @@ public class Store implements Serializable {
 	public Store() {
 	}
 
-	public int getStoreId() {
+	public Integer getStoreId() {
 		return this.storeId;
 	}
 
-	public void setStoreId(int storeId) {
+	public void setStoreId(Integer storeId) {
 		this.storeId = storeId;
-	}
-
-	public int getAddressId() {
-		return this.addressId;
-	}
-
-	public void setAddressId(int addressId) {
-		this.addressId = addressId;
 	}
 
 	public LocalDateTime getCreatedDate() {
@@ -86,5 +78,4 @@ public class Store implements Serializable {
 	public void setStoreType(String storeType) {
 		this.storeType = storeType;
 	}
-
 }

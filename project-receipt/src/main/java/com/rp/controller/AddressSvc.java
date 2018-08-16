@@ -13,18 +13,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.rp.model.Address;
 import com.rp.model.AddressReq;
 import com.rp.model.GetAddressResponse;
+import com.rp.model.Store;
 import com.rp.repository.AddressRepo;
 
 @Service
 public class AddressSvc extends BaseSvc {
 
 	@Autowired
-	private StoreSvc stoSvc;
-	
-	@Autowired
 	private AddressRepo addRepo;
 	
-	public int createAddress(String add1, String city, String code, String state, String country) {
+	@Autowired
+	private StoreSvc stSvc;
+	
+	public int createAddress(String add1, String city, String code, String state, String country, Integer storeId) {
 		
 		Address newAddress = new Address();
 		LocalDateTime current = LocalDateTime.now();
@@ -34,6 +35,7 @@ public class AddressSvc extends BaseSvc {
 		newAddress.setPostalCode(code);
 		newAddress.setState(state);
 		newAddress.setCountry(country);
+		newAddress.setStoreId(storeId);
 		newAddress.setCreatedDate(current);
 		newAddress.setLastModDate(current);
 		
@@ -50,11 +52,11 @@ public class AddressSvc extends BaseSvc {
 		return addRepo.findExact(country, state, postalCode, city, street);
 	}
 	
-	public List<Address> findByStore(String name) {
-		return addRepo.findByStore(name);		
+	public List<Address> findByStore(Integer storeId) {
+		return addRepo.findByStoreId(storeId);		
 	}
 	
-	public List<GetAddressResponse> convertToReturnObj(List<Address> addressList) {
+	public List<GetAddressResponse> convertToReturnObj(List<Address> addressList, Integer storeId) {
 		List<GetAddressResponse> addressObj = new ArrayList<GetAddressResponse>();
 		
 		for (Address a : addressList) {
@@ -96,6 +98,7 @@ public class AddressSvc extends BaseSvc {
 			
 			aReturn.setId(id);
 			aReturn.setAddress(addText);
+			aReturn.setStoreId(storeId);
 			
 			addressObj.add(aReturn);
 		}
@@ -104,7 +107,7 @@ public class AddressSvc extends BaseSvc {
 	}
 
 	@Transactional(propagation=Propagation.REQUIRED)
-    public Integer addAddress(@RequestBody AddressReq request) {
+    public void addAddress(@RequestBody AddressReq request) {
 
 		String add1 = request.getStreet();
 		String city = request.getCity();
@@ -112,14 +115,14 @@ public class AddressSvc extends BaseSvc {
 		String sta = request.getState();
 		String cou = request.getCountry();
 		
-		String name = request.getStoreName();
+		Integer storeId = request.getStoreId();
 		
 		if (null == add1 || add1.isEmpty() ||
 				null == city || city.isEmpty() ||
 				null == zip || zip.isEmpty() ||
 				null == sta || sta.isEmpty() ||
 				null == cou || cou.isEmpty() ||
-				null == name || name.isEmpty()) {
+				null == storeId || storeId < 1) {
 			
 			if (null == add1 || add1.isEmpty()) {
 				this.addError("Address 1 cannot be empty");
@@ -141,37 +144,37 @@ public class AddressSvc extends BaseSvc {
 				this.addError("Country cannot be empty");
 			}
 			
-			if (null == name || name.isEmpty()) {
-				this.addError("Store name cannot be empty");
+			if (null == storeId || storeId < 1) {
+				this.addError("Store cannot be empty");
 			}
 
 			this.throwError();
 		}
 		
-		Integer id = this.createAddress(add1, city, zip, sta, cou);
+		Integer id = this.createAddress(add1, city, zip, sta, cou, storeId);
 		
 		if (null == id || id < 1) {
 			this.throwError("Address creation failed");
 		}
-		
-		Integer storeId = stoSvc.createStore(id, name);
-		
-		if (null == storeId || storeId < 1) {
-			this.throwError("Store creation failed");
-		}
-		
-        return storeId;
     }
 	
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public List<GetAddressResponse> getAddress(String storeName) {   
         
         if (null == storeName || storeName.isEmpty()) {
-        	this.throwError("Store name is needed while retrieving addresses");
+        	this.throwError("Store name is required while retrieving addresses");
         }
         
-        List<Address> storeAddress = this.findByStore(storeName);
+        //Get the store object
+        Store store = stSvc.findStore(storeName);
         
-        return this.convertToReturnObj(storeAddress);
+        if (null == store) {
+        	return null;
+        }
+        
+        //Get address related to it
+        List<Address> storeAddress = this.findByStore(store.getStoreId());
+        
+        return this.convertToReturnObj(storeAddress, store.getStoreId());
     }
 }

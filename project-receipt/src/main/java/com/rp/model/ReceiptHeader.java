@@ -25,7 +25,7 @@ public class ReceiptHeader implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int transactionId;
+	private Integer transactionId;
 
 	private BigDecimal total;
 
@@ -43,19 +43,19 @@ public class ReceiptHeader implements Serializable {
 
 	private String paymentType;
 
-	private int storeId;
+	private Integer storeId;
 	
 
 	public ReceiptHeader() {
 	}
 
 
-	public int getTransactionId() {
+	public Integer getTransactionId() {
 		return transactionId;
 	}
 
 
-	public void setTransactionId(int transactionId) {
+	public void setTransactionId(Integer transactionId) {
 		this.transactionId = transactionId;
 	}
 
@@ -140,12 +140,12 @@ public class ReceiptHeader implements Serializable {
 	}
 
 
-	public int getStoreId() {
+	public Integer getStoreId() {
 		return storeId;
 	}
 
 
-	public void setStoreId(int storeId) {
+	public void setStoreId(Integer storeId) {
 		this.storeId = storeId;
 	}
 }

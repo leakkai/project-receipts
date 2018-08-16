@@ -29,7 +29,7 @@ public class ReceiptHeaderSvc extends BaseSvc {
 	@Autowired
 	private ReceiptHeaderRepo rhRepo;
 	
-	public Integer processHeader(RequestClass header) {
+	public ReceiptHeader processHeader(RequestClass header) {
 
 		String dateTime = header.getDate();
 
@@ -55,20 +55,20 @@ public class ReceiptHeaderSvc extends BaseSvc {
         }
         
 		//find exact store & address
-		List<Store> storeList = stSvc.findByName(storeName);
-		if (null == storeList || storeList.isEmpty() || storeList.size() < 1) {
-			this.throwError("Store not found");
-		}
+		Store storeList = stSvc.findStore(storeName);
+//		if (null == storeList || storeList.isEmpty() || storeList.size() < 1) {
+//			this.throwError("Store not found");
+//		}
 
 		Integer storeId = 0;
 
-		for (Store eachStore : storeList) {
-			if (eachStore.getAddressId() == addId) {
-				//found
-				storeId = eachStore.getStoreId();
-				break;
-			}
-		}
+//		for (Store eachStore : storeList) {
+//			/*if (eachStore.getAddressId() == addId) {
+//				//found
+//				storeId = eachStore.getStoreId();
+//				break;
+//			}*/
+//		}
 		
 		if (storeId == 0) {
 			this.throwError("Address not found for: " + storeName);
@@ -99,21 +99,25 @@ public class ReceiptHeaderSvc extends BaseSvc {
 		
 		rhRepo.save(newRH);
 
-		return newRH.getTransactionId();
+		return newRH;
 	}
 	
 	@Transactional(propagation=Propagation.REQUIRED)
 	public String processTransaction(@Valid RequestClass request) {
 		
 		//process header information
-		Integer headerId = this.processHeader(request);
+		ReceiptHeader header = this.processHeader(request);
 		
-		if (null == headerId || headerId < 1) {
+		if (null == header) {
+			this.throwError("Header creation failed");
+		}
+		
+		if (null == header.getTransactionId() || header.getTransactionId() < 1) {
 			this.throwError("Header ID can't be created?!");
 		}
 		
 		//then detail
-		rdSvc.processDetail(request, headerId);
+		rdSvc.processDetail(request, header);
 		
 		return "success";
 

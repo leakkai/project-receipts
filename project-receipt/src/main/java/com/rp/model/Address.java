@@ -20,7 +20,7 @@ public class Address implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int addressId;
+	private Integer addressId;
 
 	private String address1;
 
@@ -39,15 +39,17 @@ public class Address implements Serializable {
 	private String postalCode;
 
 	private String state;
+	
+	private Integer storeId;
 
 	public Address() {
 	}
 
-	public int getAddressId() {
+	public Integer getAddressId() {
 		return this.addressId;
 	}
 
-	public void setAddressId(int addressId) {
+	public void setAddressId(Integer addressId) {
 		this.addressId = addressId;
 	}
 
@@ -123,4 +125,11 @@ public class Address implements Serializable {
 		this.state = state;
 	}
 
+	public Integer getStoreId() {
+		return storeId;
+	}
+
+	public void setStoreId(Integer storeId) {
+		this.storeId = storeId;
+	}
 }

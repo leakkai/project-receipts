@@ -19,4 +19,7 @@ public interface CommoviceRepo extends CrudRepository<Commovice, Long> {
 	
 	@Query("select c.commoviceId from Commovice c where c.name = :name")
 	Integer getIdByName(@Param("name") String name);
+	
+	@Query("select c from Commovice c where c.storeId = :id")
+	List<Commovice> findByStoreId(@Param("id") int id);
 }

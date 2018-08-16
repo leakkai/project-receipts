@@ -72,13 +72,21 @@ $('#storeName').on('focusout', function() {
 	
 			var addList = data.object;
 			
-			$.each(addList, function(key, value) {
+			/*$.each(addList, function(key, value) {
 				$('[name=addressId]')
 					.append($('<option>', { value : addList[key].id })
 							.text(addList[key].address));
 			});
 			
 			$('#addressId').val(addList[0].id);
+			
+			//must get storeid from address return
+			$('#storeId').val(addList[0].storeId);*/
+			
+			setAddressList(addList);
+		}
+		else {
+			alert(data.status);
 		}
 	});
 });
@@ -107,9 +115,22 @@ $('#addressCreateButton').click(function(e) {
 	var result = createAddress();
 	
 	result.done(function(data) {
-		retrieveAddress($('#storeName').val());
-		
-		$('#addressCreateButton').removeClass('is-loading').addClass('is-outlined').text('Done').attr('disabled', 'disabled');
+		if (data.status === "success") {
+			
+			var addList = retrieveAddress($('#storeName').val());
+			
+			addList.done(function(data) {
+				if (data.status === "success") {
+					$('#addressCreateButton').removeClass('is-loading').addClass('is-outlined').text('Done').attr('disabled', 'disabled');
+					
+					setAddressList(data.object);
+				}
+				else {
+					alert(data.status);
+				}
+			});
+			
+		}
 	});
 });
 
@@ -148,25 +169,30 @@ $('#saveTransaction').click(function (e) {
 	}
 	
 	e.preventDefault();
-
-	$('#success-foreground').css("zIndex", 1);
-	$('#success-load').removeClass('hide').addClass('animated bounceInLeft');
+	
+	$('#success-foreground').css("z-index", 10);
 	
 	var result = saveTransaction($headerForm);
 	
 	result.done(function(data) {
-		$('#success-load').removeClass('fadeInLeft').addClass('fadeOut');
 		
 		if (data.status === "success") {
 			$('#success-check').removeClass('hide').addClass('animated fadeIn');
-			$('#success-check').removeClass('fadeIn').addClass('bounceOutRight');
-			alert("YESSS");
+			$('#success-check').one("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd", function(e) {
+				$('#success-check').removeClass('animated fadeIn').addClass('animated bounceOutRight');
+				
+				$('#success-check').one("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd", function(e) {
+					$('#success-foreground').css("z-index", -10);
+					// Redirect back to insert, basically want to refresh
+					window.location.replace("/receipt/");
+				});
+			});			
 		}
 		else {
-			//load "X" animation
-			alert("sumting wong");
+			$('#main-body').addClass('animated shake');
+			alert(data.status);
+			$('#main-body').removeClass('animated shake');
+			$('#success-foreground').css("z-index", -1);
 		}
 	});
-	
-	$('#success-foreground').css("zIndex", -1);
 });

@@ -13,6 +13,8 @@ public class GetAddressResponse extends Object implements Serializable {
 	private Integer id;
 
 	private String address;
+	
+	private Integer storeId;
 
 	public GetAddressResponse() {
 	}
@@ -31,5 +33,13 @@ public class GetAddressResponse extends Object implements Serializable {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public Integer getStoreId() {
+		return storeId;
+	}
+
+	public void setStoreId(Integer storeId) {
+		this.storeId = storeId;
 	}
 }

@@ -26,6 +26,9 @@ public class ReceiptHeaderController extends BaseController {
 	@Autowired
 	AddressSvc addSvc;
 	
+	@Autowired
+	CommoviceSvc cmSvc;
+	
     @GetMapping("")
     public String simpleView(Model model) {
     	model.addAttribute("request", new RequestClass());
@@ -62,10 +65,22 @@ public class ReceiptHeaderController extends BaseController {
     public ResponseHolder addAddress(@RequestBody AddressReq request) {
 
 		try {
-			return this.buildResponse(addSvc.addAddress(request));
+			addSvc.addAddress(request);
+			return this.buildResponse("");
 		}
 		catch (Exception e) {
 			return this.buildResponse(e.getMessage());
 		}
     }
+	
+	@RequestMapping(value = "getItems/{storeName}", produces = "application/json", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseHolder getItems(@PathVariable("storeName") String storeName) {
+		try {
+			return this.buildResponse(cmSvc.getItems(storeName));
+		}
+		catch (RuntimeException e) {
+			return this.buildResponse(e.getMessage());
+		}
+	}
 }

@@ -214,7 +214,7 @@ function enableAddressButton(storeName) {
 }
 
 function retrieveAddress(storeName) {
-	$('[name=addressList]').find('option').remove();
+	$('[name=addressId]').find('option').remove();
 	
 	if (storeName !== null && storeName !== "") {
 		var data = serverGet("", "getAddress/"+storeName);
@@ -230,12 +230,25 @@ function createAddress() {
 			"zip": $('#postalCode').val(),
 			"state": $('#state').val(),
 			"country": $('#country').val(),
-			"storeName": $('#storeName').val()
+			"storeId": $('#storeId').val()
 	}
 
 	var tmp = serverPost(req, "addAddress");
 	
 	return tmp;
+}
+
+function setAddressList(addList) {
+	$.each(addList, function(key, value) {
+		$('[name=addressId]')
+			.append($('<option>', { value : addList[key].id })
+					.text(addList[key].address));
+	});
+	
+	$('#addressId').val(addList[0].id);
+	
+	//must get storeid from address return
+	$('#storeId').val(addList[0].storeId);
 }
 
 function saveTransaction($req) {
@@ -260,7 +273,7 @@ function serverPost(req, url) {
 //	    		alert(data.id);
 	    	}
 	    	else {
-	    		alert(data.status);
+//	    		alert(data.status);
 	    	}
 	    },
 	    error: function( jqXhr, textStatus, errorThrown ){
@@ -429,3 +442,14 @@ function setDetailCategory($e) {
         return json;
     };
 })(jQuery);
+
+
+
+function sleep(milliseconds) {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
+}
