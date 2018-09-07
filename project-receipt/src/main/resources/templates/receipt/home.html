@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <title>Home</title>
@@ -11,6 +11,7 @@
     <link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/bulma.css}"/>
     <link rel="stylesheet" th:href="@{/css/animate.css}"/>
+    <link rel="stylesheet" th:href="@{/css/awesomplete.css}"/>
 
 	<!-- Custom CSS  -->
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
@@ -127,10 +128,15 @@
 	                <div class="field-label">
 	                    <label class="label">Store Name</label>
                     </div>
+                    
+                        <datalist id="storeNameList">
+		<option></option>						
+	</datalist>
+	
                     <div class="field-body">
                     	<div class="field has-addons">
 		                    <div class="control is-expanded">
-		                        <input class="input" type="text" name="storeName" id="storeName" required>
+		                        <input class="input awesomplete" type="text" name="storeName" id="storeName" list="storeNameList" data-minchars=1 required>
 		                        <input class="hide" type="number" name="storeId" id="storeId">
 		                    </div>
 		                    <div class="control">
@@ -337,16 +343,13 @@
                 </div>
             </form>
         </div>
-        
-      
     </section>
-    
-    
       
     <!-- Script  -->
     <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.1.4/flatpickr.min.js}"></script>
     <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js}"></script>
     <script th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+    <script th:src="@{/script/awesomplete.js}"></script>
     
     <!-- Custom JS -->
     <script th:src="@{/script/script.js}"></script>

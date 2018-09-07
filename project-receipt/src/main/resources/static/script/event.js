@@ -196,3 +196,21 @@ $('#saveTransaction').click(function (e) {
 		}
 	});
 });
+
+//	Load store name
+$( document ).ready(function() {
+    var result = storeGet();
+    
+    result.done(function (data) {
+    	if (data.status === "success") {
+    		
+    		var storeList = data.object;
+    		
+    		$.each(storeList, function(key, value) {
+    			$('#storeNameList')
+    				.append($('<option>', { value : storeList[key].storeId })
+    						.text(storeList[key].storeName));
+    		});
+    	}
+    });
+});

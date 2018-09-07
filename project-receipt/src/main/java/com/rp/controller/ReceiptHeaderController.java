@@ -29,6 +29,9 @@ public class ReceiptHeaderController extends BaseController {
 	@Autowired
 	CommoviceSvc cmSvc;
 	
+	@Autowired
+	StoreSvc stSvc;
+	
     @GetMapping("")
     public String simpleView(Model model) {
     	model.addAttribute("request", new RequestClass());
@@ -83,4 +86,15 @@ public class ReceiptHeaderController extends BaseController {
 			return this.buildResponse(e.getMessage());
 		}
 	}
+	
+	@RequestMapping(value = "getStoreList", produces = "application/json", method = RequestMethod.GET)
+	@ResponseBody
+    public ResponseHolder getStoreList() {
+		try {
+			return this.buildResponse(stSvc.getStoreList());
+		}
+		catch (RuntimeException e) {
+			return this.buildResponse(e.getMessage());
+		}
+    }
 }

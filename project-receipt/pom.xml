@@ -15,6 +15,9 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <thymeleaf.version>3.0.8.RELEASE</thymeleaf.version>
+        <thymeleaf-layout-dialect.version>2.2.2</thymeleaf-layout-dialect.version>
      </properties>
 
     <build>
@@ -77,17 +80,10 @@
 		</dependency>
 		
 		<!-- Enable HTML5 syntax in Thymeleaf template engine -->
-		<dependency>
+		<!-- <dependency>
      		<groupId>net.sourceforge.nekohtml</groupId>
      		<artifactId>nekohtml</artifactId>
- 		</dependency>
- 		
-  		<!-- Hibernate? -->
-<!-- 		<dependency>
-		    <groupId>org.hibernate</groupId>
-		    <artifactId>hibernate-core</artifactId>   
-		    <version>5.2.2.Final</version>
-		</dependency> -->
+ 		</dependency> -->
     </dependencies>
     
     <repositories>

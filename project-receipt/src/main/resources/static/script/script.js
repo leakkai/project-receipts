@@ -4,14 +4,6 @@ flatpickr(".date", {
 
 var $TABLE = $('#table');
 
-/*$(window).keyup(function (e) {
-
-	var code = (e.keyCode ? e.keyCode : e.which);
-    if (code == 9 && $('.uPrice:focusout').length) {        	
-    	return true;
-    }
-});*/
-
 var total = 0.00;
 var tax = 0.00;
 var tips = 0.00;
@@ -452,4 +444,9 @@ function sleep(milliseconds) {
       break;
     }
   }
+}
+
+
+function storeGet() {
+	return serverGet("", "getStoreList");
 }
